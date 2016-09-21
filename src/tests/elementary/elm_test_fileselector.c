@@ -73,7 +73,7 @@ START_TEST (elm_fileselector_selected)
 
    selected = EINA_FALSE;
    ck_assert(elm_fileselector_selected_set(fileselector, exist));
-   ck_assert(elm_test_helper_wait_flag(10, &selected));
+   ck_assert(elm_test_helper_wait_flag(60, &selected));
 
    ck_assert_str_eq(elm_fileselector_selected_get(fileselector), exist);
 
