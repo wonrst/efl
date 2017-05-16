@@ -14608,14 +14608,15 @@ ob_collections_group_programs_program(void)
    epp->can_override = EINA_FALSE;
 
    /* generate new name */
-   def_name = alloca(strlen("program_") + strlen("0xFFFFFFFFFFFFFFFF") + 1);
-   sprintf(def_name, "program_%p", ep);
+   def_name = alloca(strlen("program_") + sizeof(unsigned int) + 1);
+   sprintf(def_name, "program_%i", pc->programs.total_count);
    ep->name = strdup(def_name);
    if (pcp->default_source)
      ep->source = strdup(pcp->default_source);
    _edje_program_insert(pc, ep);
 
    current_program = ep;
+   pc->programs.total_count++;
 }
 
 static void
