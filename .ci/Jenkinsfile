@@ -19,8 +19,6 @@ pipeline {
                 sh '.ci/ci-linux-build.sh'
             }
         }
-    }
-    stages {
         stage('Build x86_64 GCC') {
             agent {
                 label 'e5-build-gentoo-x86_64-1'
@@ -29,8 +27,6 @@ pipeline {
                 sh '.ci/ci-linux-build.sh'
             }
         }
-    }
-    stages {
         stage('Build x86 Clang') {
             agent {
                 label 'e5-build-gentoo-x86-1'
@@ -42,8 +38,6 @@ pipeline {
                 sh '.ci/ci-linux-build.sh'
             }
         }
-    }
-    stages {
         stage('Build x86_64 Clang') {
             agent {
                 label 'e5-build-gentoo-x86_64-1'
@@ -55,16 +49,12 @@ pipeline {
                 sh '.ci/ci-linux-build.sh'
             }
         }
-    }
-    stages {
         stage('Build misc') {
             agent any
             steps {
                 sh '.ci/ci-linux-build-misc.sh'
             }
         }
-    }
-    stages {
         stage('Build wayland') {
             agent any
             steps {
