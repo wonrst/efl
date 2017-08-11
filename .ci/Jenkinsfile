@@ -11,55 +11,57 @@ pipeline {
     agent none
 
     stages {
-        stage('Build x86 GCC') {
-            agent {
-                label 'e5-build-gentoo-x86-1'
+        parallel(
+            stage('Build x86 GCC') {
+                agent {
+                    label 'e5-build-gentoo-x86-1'
+                }
+                steps {
+                    sh '.ci/ci-linux-build.sh'
+                }
             }
-            steps {
-                sh '.ci/ci-linux-build.sh'
+            stage('Build x86_64 GCC') {
+                agent {
+                    label 'e5-build-gentoo-x86_64-1'
+                }
+                steps {
+                    sh '.ci/ci-linux-build.sh'
+                }
             }
-        }
-        stage('Build x86_64 GCC') {
-            agent {
-                label 'e5-build-gentoo-x86_64-1'
+            stage('Build x86 Clang') {
+                agent {
+                   label 'e5-build-gentoo-x86-1'
+                }
+                environment {
+                    CC = 'clang'
+                }
+                steps {
+                    sh '.ci/ci-linux-build.sh'
+                }
             }
-            steps {
-                sh '.ci/ci-linux-build.sh'
+            stage('Build x86_64 Clang') {
+                agent {
+                    label 'e5-build-gentoo-x86_64-1'
+                }
+                environment {
+                   CC = 'clang'
+                }
+                steps {
+                    sh '.ci/ci-linux-build.sh'
+                }
             }
-        }
-        stage('Build x86 Clang') {
-            agent {
-                label 'e5-build-gentoo-x86-1'
+            stage('Build misc') {
+                agent any
+                steps {
+                    sh '.ci/ci-linux-build-misc.sh'
+                }
             }
-            environment {
-                CC = 'clang'
+            stage('Build wayland') {
+                agent any
+                steps {
+                    sh '.ci/ci-linux-build-wayland.sh'
+                }
             }
-            steps {
-                sh '.ci/ci-linux-build.sh'
-            }
-        }
-        stage('Build x86_64 Clang') {
-            agent {
-                label 'e5-build-gentoo-x86_64-1'
-            }
-            environment {
-                CC = 'clang'
-            }
-            steps {
-                sh '.ci/ci-linux-build.sh'
-            }
-        }
-        stage('Build misc') {
-            agent any
-            steps {
-                sh '.ci/ci-linux-build-misc.sh'
-            }
-        }
-        stage('Build wayland') {
-            agent any
-            steps {
-                sh '.ci/ci-linux-build-wayland.sh'
-            }
-        }
+        )
     }
 }
