@@ -8,9 +8,41 @@
 //e5-build-gentoo-x86_64-1
 
 pipeline {
-    agent none
+    agent any
 
     stages {
+        stage('Build x86_64 GCC') {
+            agent {
+                label 'e5-build-gentoo-x86_64-1'
+            }
+            steps {
+                sh '.ci/ci-linux-build.sh'
+            }
+        }
+    }
+}
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Build x86 GCC') {
+            agent {
+                label 'e5-build-gentoo-x86-1'
+            }
+            steps {
+                sh '.ci/ci-linux-build.sh'
+            }
+        }
+    }
+}
+
+
+
+
+
+
+	    /*    stages {
             stage('Build misc') {
                 agent any
                 steps {
@@ -26,22 +58,6 @@ pipeline {
             }
     }
 }
-/*            stage('Build x86 GCC') {
-                agent {
-                    label 'e5-build-gentoo-x86-1'
-                }
-                steps {
-                    sh '.ci/ci-linux-build.sh'
-                }
-            }
-            stage('Build x86_64 GCC') {
-                agent {
-                    label 'e5-build-gentoo-x86_64-1'
-                }
-                steps {
-                    sh '.ci/ci-linux-build.sh'
-                }
-            }
             stage('Build x86 Clang') {
                 agent {
                    label 'e5-build-gentoo-x86-1'
