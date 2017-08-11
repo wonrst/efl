@@ -11,8 +11,22 @@ pipeline {
     agent none
 
     stages {
-        parallel(
-            stage('Build x86 GCC') {
+            stage('Build misc') {
+                agent any
+                steps {
+                    parallel(
+                        one: {
+                        sh '.ci/ci-linux-build-misc.sh'
+			},
+                        two: {
+                        sh '.ci/ci-linux-build-wayland.sh'
+			}
+		    )
+                }
+            }
+    }
+}
+/*            stage('Build x86 GCC') {
                 agent {
                     label 'e5-build-gentoo-x86-1'
                 }
@@ -49,19 +63,4 @@ pipeline {
                 steps {
                     sh '.ci/ci-linux-build.sh'
                 }
-            }
-            stage('Build misc') {
-                agent any
-                steps {
-                    sh '.ci/ci-linux-build-misc.sh'
-                }
-            }
-            stage('Build wayland') {
-                agent any
-                steps {
-                    sh '.ci/ci-linux-build-wayland.sh'
-                }
-            }
-        )
-    }
-}
+            } */
