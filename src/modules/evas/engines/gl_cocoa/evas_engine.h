@@ -87,6 +87,7 @@ extern Evas_GL_Common_Context_Call glsym_evas_gl_common_context_newframe;
 extern Evas_GL_Preload_Render_Call glsym_evas_gl_preload_render_lock;
 extern Evas_GL_Preload_Render_Call glsym_evas_gl_preload_render_unlock;
 extern Evas_Gl_Symbols glsym_evas_gl_symbols;
+extern void (*glsym_evas_common_font_ext_clear)(void);
 
 Outbuf *evas_outbuf_new(Evas_Engine_Info_GL_Cocoa *info, int w, int h);
 void evas_outbuf_free(Outbuf *ob);

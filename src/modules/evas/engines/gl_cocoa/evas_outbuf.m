@@ -158,7 +158,7 @@ evas_outbuf_free(Outbuf *ob)
    evas_outbuf_use(ob);
 
    _win_count--;
-   if (_win_count == 0) evas_common_font_ext_clear();
+   if (_win_count == 0) glsym_evas_common_font_ext_clear();
 
    if (ob == _evas_gl_cocoa_window) _evas_gl_cocoa_window = NULL;
    if (ob->gl_context)

@@ -20,6 +20,7 @@ Evas_GL_Preload_Render_Call glsym_evas_gl_preload_render_lock = NULL;
 Evas_GL_Preload_Render_Call glsym_evas_gl_preload_render_unlock = NULL;
 static Evas_GL_Preload glsym_evas_gl_preload_init = NULL;
 static Evas_GL_Preload glsym_evas_gl_preload_shutdown = NULL;
+void (*glsym_evas_common_font_ext_clear)(void) = NULL;
 
 int _evas_engine_gl_cocoa_log_dom = -1;
 /* function tables - filled in later (func and parent func) */
@@ -252,6 +253,8 @@ _gl_symbols(void)
    LINK2GENERIC(evas_gl_preload_shutdown);
 
    LINK2GENERIC(evas_gl_symbols);
+
+   LINK2GENERIC(evas_common_font_ext_clear);
 
 #undef LINK2GENERIC
 
