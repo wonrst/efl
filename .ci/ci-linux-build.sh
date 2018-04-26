@@ -63,3 +63,22 @@ if [ "$CI_BUILD_TYPE" = "release-ready" ]; then
   make -j $PARALLEL_JOBS
   make -j $PARALLEL_JOBS distcheck
 fi
+
+# Known non-working options:
+# --enable-g-main-loop fails to build
+# --enable-ecore-buffer fails build in examples
+# --enable-libvlc need rpmfusion repo
+# --enable-xine needs rpmfusion repo
+# --disable-threads configure: error: Threads are required.
+# --enable-elua does not work in combination with --enable-lua-old??
+# --enable-tizen needs some tizen system lib
+# --enable-csharp-bindings work in progress
+# Javacript bindings work in progress
+# --enable-gesture unclear how to get Xgesture dep
+# alsa is not detected
+# --enable-debug-threads crashed build in examples with locked threads
+# --enable-eglfs needs hwcomposer.h on an android build
+
+# Still need to cover:
+# --with-profile=debug AND release
+# --with-crypto=none
