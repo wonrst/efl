@@ -69,6 +69,16 @@ after_success:
         docker push stefanschmidt1/ci-support-files:$DISTRO-$TRAVIS_BUILD_NUMBER
       fi
 
+addons:
+  coverity_scan:
+    project:
+      name: "Enlightenment/efl"
+      description: "Build submitted via Travis CI"
+    notification_email: stefan@datenfreihafen.org
+    build_command_prepend: "./autogen.sh && ./configure && make clean"
+    build_command:   "make -j 10"
+    branch_pattern: devs/stefan/travis-reliable-ci
+
 notifications:
   irc:
     channels:
