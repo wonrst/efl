@@ -81,7 +81,7 @@ addons:
     notification_email: stefan@datenfreihafen.org
     build_command_prepend: "./autogen.sh --disable-systemd && ./configure && make clean"
     build_command: "make -j 10"
-    branch_pattern: devs\/stefan\/travis-reliable-ci
+    branch_pattern: /devs\/stefan\/travis-reliable-ci/
 
 notifications:
   irc:
