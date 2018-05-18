@@ -16,10 +16,6 @@ env:
   - DISTRO=Fedora28 CI_BUILD_TYPE=release-ready
   - DISTRO=Debian91
   - DISTRO=Archlinux
-  global:
-   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
-   #   via the "travis encrypt" command using the project repo's public key
-   - secure: "SEdM6lzGSVIMv1lk4Z/kP8Hlk8lypcHrg6g/sZ/bDYhcR14uqS1wenLmKe8Cr1z7TevIM+gB4ERI9uR6jQpv45/hyVxaL5AylEk2FOcGMb/wBh8A+eq7c9s+5oxMZZvYH9C1Y1CPm38uK0pAu59XoQLL5ZiCjhbPaZ48MQZO3gGmRSAQM2DbJ02DqN9HMuIN14E0sENRtTU1IBK9oAmmOqz8fIn3I7mp07GdO5OrxgjffNT5pgKfzoahq5cPEQq/SnXczk4jk8nfUPHzayxN1NOHAyQrr+RLdKlr5Y2xiOj/+0DipNGkqXFhtBi1Dkts1JxJugvOSBJr7Llh6ePFHNsE6b1J3DaCb4ZJ5fgL2lmg0R9HDzyNMnaXIINNZLARusYwiqo1lKnovlTBNBj7EVSZ8sFNYYrurxpr0H1rFmdcAvlcKz6xd7JB2vkkl9aRT4S7jNFGIxOjwUTBFSGM0xit1eMpd2JWbm8CIB8kOSS1Ng1k4Mejj6smtZbJesYJY6CCxs+wKN911Eok9rQ+fT5mcGFO+jXMPlzqLUbL+0SYeFEP2YiqJygkQgwTvKmgez3k5I5EdDs0KqRWjiynors6nk0PRD/bWYjhXYIHfClAYiy/MZrVeVgG4zeMF4RX5ZsEnLsFfen+o+zNeC5Ooe37BYKbHbLm2xMkstuJcFg="
 
 services:
   - docker
@@ -49,7 +45,6 @@ matrix:
       env: DISTRO=Fedora28 CI_BUILD_TYPE=release-ready
 
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$DISTRO" == "" ]]; then echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca- ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then .ci/ci-osx-deps.sh ; fi
 
 before_script:
@@ -76,16 +71,14 @@ after_success:
       fi
 
 addons:
-  apt:
-    update: true
   coverity_scan:
     project:
       name: "Enlightenment/efl"
       description: "Build submitted via Travis CI"
     notification_email: stefan@datenfreihafen.org
     build_command_prepend: "./autogen.sh --disable-systemd && ./configure && make clean"
-    build_command: "make -j 10"
-    branch_pattern: "devs/stefan/travis-reliable-ci"
+    build_command:   "make -j 10"
+    branch_pattern: devs/stefan/travis-reliable-ci
 
 notifications:
   irc:
@@ -98,4 +91,3 @@ notifications:
       - "Commit: %{commit_subject} (%{commit}) from %{author}"
       - "Change view : %{compare_url}"
       - "Build details : %{build_url}"
-
