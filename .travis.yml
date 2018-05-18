@@ -14,6 +14,7 @@ env:
   - DISTRO=Fedora28 CI_BUILD_TYPE=misc
   - DISTRO=Fedora28 CI_BUILD_TYPE=misc-disabled
   - DISTRO=Fedora28 CI_BUILD_TYPE=release-ready
+  - DISTRO=Fedora28 CI_BUILD_TYPE=coverity
   - DISTRO=Debian91
   - DISTRO=Archlinux
 
@@ -34,6 +35,8 @@ matrix:
     - os: osx
       env: DISTRO=Fedora28 CI_BUILD_TYPE=release-ready
     - os: osx
+      env: DISTRO=Fedora28 CI_BUILD_TYPE=coverity
+    - os: osx
       env: DISTRO=Debian91
     - os: osx
       env: DISTRO=Archlinux
@@ -45,7 +48,6 @@ matrix:
       env: DISTRO=Fedora28 CI_BUILD_TYPE=release-ready
 
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$DISTRO" == "" ]]; then echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca- ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then .ci/ci-osx-deps.sh ; fi
 
 before_script:
@@ -55,7 +57,6 @@ before_script:
       fi
 
 script:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$DISTRO" == "" ]]; then .ci/ci-linux-deps-ubuntu1404.sh ; fi
   - |
       if [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$DISTRO" != "" ]]; then
         docker run -v `pwd`:/src -w /src stefanschmidt1/ci-support-files:$DISTRO /src/.ci/ci-linux-build.sh $CI_BUILD_TYPE
@@ -71,18 +72,6 @@ after_success:
         docker push stefanschmidt1/ci-support-files:$DISTRO-$TRAVIS_BUILD_NUMBER
       fi
 
-addons:
-  apt:
-    update: true
-  coverity_scan:
-    project:
-      name: "Enlightenment/efl"
-      description: "Build submitted via Travis CI"
-    notification_email: stefan@datenfreihafen.org
-    build_command_prepend: "./autogen.sh --disable-systemd && ./configure && make clean"
-    build_command: "make -j 10"
-    branch_pattern: 
-
 notifications:
   irc:
     channels:
@@ -94,4 +83,3 @@ notifications:
       - "Commit: %{commit_subject} (%{commit}) from %{author}"
       - "Change view : %{compare_url}"
       - "Build details : %{build_url}"
-

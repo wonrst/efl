@@ -64,6 +64,16 @@ if [ "$CI_BUILD_TYPE" = "release-ready" ]; then
   make -j $PARALLEL_JOBS distcheck
 fi
 
+if [ "$CI_BUILD_TYPE" = "coverity" ]; then
+  wget https://scan.coverity.com/download/linux64 --post-data "token=pmkPRn6qpo35d4ZrHRYJtA&project=Enlightenment+Foundation+Libraries" -O coverity_tool.tgz
+  tar xf coverity_tool.tgz
+  FILENAME=efl-$(date -I)-$(git rev-parse --short HEAD)
+  rm -rf cov-int
+  ./autogen.sh $MISC_COPTS --enable-hyphen --enable-wayland --enable-drm --enable-elput
+  cov-analysis-linux64-2017.07/bin/cov-build --dir cov-int make -j${PARALLEL_JOBS}
+  tar czvf $FILENAME.tgz cov-int
+  curl --form token=pmkPRn6qpo35d4ZrHRYJtA --form email=stefan@datenfreihafen.org --form file=@$FILENAME.tgz --form version=$FILENAME --form description=$FILENAME https://scan.coverity.com/builds?project=Enlightenment+Foundation+Libraries
+fi
 # Known non-working options:
 # --enable-g-main-loop fails to build
 # --enable-ecore-buffer fails build in examples
