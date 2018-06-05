@@ -433,4 +433,111 @@ _ecore_event_message_handler_type_flush(Eo *obj, Ecore_Event_Message_Handler_Dat
 
 //////////////////////////////////////////////////////////////////////////
 
-#include "ecore_event_message_handler.eo.c"
+EWAPI const Efl_Event_Description _ECORE_EVENT_MESSAGE_HANDLER_EVENT_MESSAGE_ECORE_EVENT =
+   EFL_EVENT_DESCRIPTION("message,ecore,event");
+
+Ecore_Event_Message *_ecore_event_message_handler_message_type_add(Eo *obj, Ecore_Event_Message_Handler_Data *pd);
+
+EOAPI EFL_FUNC_BODY(ecore_event_message_handler_message_type_add, Ecore_Event_Message *, NULL);
+
+int _ecore_event_message_handler_type_new(Eo *obj, Ecore_Event_Message_Handler_Data *pd);
+
+EOAPI EFL_FUNC_BODY(ecore_event_message_handler_type_new, int, 0);
+
+void *_ecore_event_message_handler_handler_add(Eo *obj, Ecore_Event_Message_Handler_Data *pd, int type, void *func, void *data);
+
+EOAPI EFL_FUNC_BODYV(ecore_event_message_handler_add, void *, NULL, EFL_FUNC_CALL(type, func, data), int type, void *func, void *data);
+
+void *_ecore_event_message_handler_handler_prepend(Eo *obj, Ecore_Event_Message_Handler_Data *pd, int type, void *func, void *data);
+
+EOAPI EFL_FUNC_BODYV(ecore_event_message_handler_prepend, void *, NULL, EFL_FUNC_CALL(type, func, data), int type, void *func, void *data);
+
+void *_ecore_event_message_handler_handler_del(Eo *obj, Ecore_Event_Message_Handler_Data *pd, void *handler);
+
+EOAPI EFL_FUNC_BODYV(ecore_event_message_handler_del, void *, NULL, EFL_FUNC_CALL(handler), void *handler);
+
+void *_ecore_event_message_handler_handler_data_get(Eo *obj, Ecore_Event_Message_Handler_Data *pd, void *handler);
+
+EOAPI EFL_FUNC_BODYV(ecore_event_message_handler_data_get, void *, NULL, EFL_FUNC_CALL(handler), void *handler);
+
+void *_ecore_event_message_handler_handler_data_set(Eo *obj, Ecore_Event_Message_Handler_Data *pd, void *handler, void *data);
+
+EOAPI EFL_FUNC_BODYV(ecore_event_message_handler_data_set, void *, NULL, EFL_FUNC_CALL(handler, data), void *handler, void *data);
+
+void *_ecore_event_message_handler_filter_add(Eo *obj, Ecore_Event_Message_Handler_Data *pd, void *func_start, void *func_filter, void *func_end, void *data);
+
+EOAPI EFL_FUNC_BODYV(ecore_event_message_handler_filter_add, void *, NULL, EFL_FUNC_CALL(func_start, func_filter, func_end, data), void *func_start, void *func_filter, void *func_end, void *data);
+
+void *_ecore_event_message_handler_filter_del(Eo *obj, Ecore_Event_Message_Handler_Data *pd, void *filter);
+
+EOAPI EFL_FUNC_BODYV(ecore_event_message_handler_filter_del, void *, NULL, EFL_FUNC_CALL(filter), void *filter);
+
+int _ecore_event_message_handler_current_type_get(Eo *obj, Ecore_Event_Message_Handler_Data *pd);
+
+EOAPI EFL_FUNC_BODY(ecore_event_message_handler_current_type_get, int, 0);
+
+void *_ecore_event_message_handler_current_event_get(Eo *obj, Ecore_Event_Message_Handler_Data *pd);
+
+EOAPI EFL_FUNC_BODY(ecore_event_message_handler_current_event_get, void *, NULL);
+
+void _ecore_event_message_handler_type_flush(Eo *obj, Ecore_Event_Message_Handler_Data *pd, int type);
+
+EOAPI EFL_VOID_FUNC_BODYV(ecore_event_message_handler_type_flush, EFL_FUNC_CALL(type), int type);
+
+Efl_Object *_ecore_event_message_handler_efl_object_constructor(Eo *obj, Ecore_Event_Message_Handler_Data *pd);
+
+
+void _ecore_event_message_handler_efl_object_destructor(Eo *obj, Ecore_Event_Message_Handler_Data *pd);
+
+
+void _ecore_event_message_handler_efl_loop_message_handler_message_call(Eo *obj, Ecore_Event_Message_Handler_Data *pd, Efl_Loop_Message *message);
+
+
+static Eina_Bool
+_ecore_event_message_handler_class_initializer(Efl_Class *klass)
+{
+   const Efl_Object_Ops *opsp = NULL, *copsp = NULL;
+
+#ifndef ECORE_EVENT_MESSAGE_HANDLER_EXTRA_OPS
+#define ECORE_EVENT_MESSAGE_HANDLER_EXTRA_OPS
+#endif
+
+   EFL_OPS_DEFINE(ops,
+      EFL_OBJECT_OP_FUNC(ecore_event_message_handler_message_type_add, _ecore_event_message_handler_message_type_add),
+      EFL_OBJECT_OP_FUNC(ecore_event_message_handler_type_new, _ecore_event_message_handler_type_new),
+      EFL_OBJECT_OP_FUNC(ecore_event_message_handler_add, _ecore_event_message_handler_handler_add),
+      EFL_OBJECT_OP_FUNC(ecore_event_message_handler_prepend, _ecore_event_message_handler_handler_prepend),
+      EFL_OBJECT_OP_FUNC(ecore_event_message_handler_del, _ecore_event_message_handler_handler_del),
+      EFL_OBJECT_OP_FUNC(ecore_event_message_handler_data_get, _ecore_event_message_handler_handler_data_get),
+      EFL_OBJECT_OP_FUNC(ecore_event_message_handler_data_set, _ecore_event_message_handler_handler_data_set),
+      EFL_OBJECT_OP_FUNC(ecore_event_message_handler_filter_add, _ecore_event_message_handler_filter_add),
+      EFL_OBJECT_OP_FUNC(ecore_event_message_handler_filter_del, _ecore_event_message_handler_filter_del),
+      EFL_OBJECT_OP_FUNC(ecore_event_message_handler_current_type_get, _ecore_event_message_handler_current_type_get),
+      EFL_OBJECT_OP_FUNC(ecore_event_message_handler_current_event_get, _ecore_event_message_handler_current_event_get),
+      EFL_OBJECT_OP_FUNC(ecore_event_message_handler_type_flush, _ecore_event_message_handler_type_flush),
+      EFL_OBJECT_OP_FUNC(efl_constructor, _ecore_event_message_handler_efl_object_constructor),
+      EFL_OBJECT_OP_FUNC(efl_destructor, _ecore_event_message_handler_efl_object_destructor),
+      EFL_OBJECT_OP_FUNC(efl_loop_message_handler_message_call, _ecore_event_message_handler_efl_loop_message_handler_message_call),
+      ECORE_EVENT_MESSAGE_HANDLER_EXTRA_OPS
+   );
+   opsp = &ops;
+
+#ifdef ECORE_EVENT_MESSAGE_HANDLER_EXTRA_CLASS_OPS
+   EFL_OPS_DEFINE(cops, ECORE_EVENT_MESSAGE_HANDLER_EXTRA_CLASS_OPS);
+   copsp = &cops;
+#endif
+
+   return efl_class_functions_set(klass, opsp, copsp);
+}
+
+static const Efl_Class_Description _ecore_event_message_handler_class_desc = {
+   EO_VERSION,
+   "Ecore.Event.Message.Handler",
+   EFL_CLASS_TYPE_REGULAR,
+   sizeof(Ecore_Event_Message_Handler_Data),
+   _ecore_event_message_handler_class_initializer,
+   NULL,
+   NULL
+};
+
+EFL_DEFINE_CLASS(ecore_event_message_handler_class_get, &_ecore_event_message_handler_class_desc, EFL_LOOP_MESSAGE_HANDLER_CLASS, NULL);

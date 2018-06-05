@@ -78,4 +78,59 @@ _ecore_event_message_efl_object_destructor(Eo *obj EINA_UNUSED, Ecore_Event_Mess
 
 //////////////////////////////////////////////////////////////////////////
 
-#include "ecore_event_message.eo.c"
+void _ecore_event_message_data_set(Eo *obj, Ecore_Event_Message_Data *pd, int type, void *data, void *free_func, void *free_data);
+
+EOAPI EFL_VOID_FUNC_BODYV(ecore_event_message_data_set, EFL_FUNC_CALL(type, data, free_func, free_data), int type, void *data, void *free_func, void *free_data);
+
+void _ecore_event_message_data_get(const Eo *obj, Ecore_Event_Message_Data *pd, int *type, void **data, void **free_func, void **free_data);
+
+EOAPI EFL_VOID_FUNC_BODYV_CONST(ecore_event_message_data_get, EFL_FUNC_CALL(type, data, free_func, free_data), int *type, void **data, void **free_func, void **free_data);
+
+void _ecore_event_message_data_steal(Eo *obj, Ecore_Event_Message_Data *pd, int *type, void **data, void **free_func, void **free_data);
+
+EOAPI EFL_VOID_FUNC_BODYV(ecore_event_message_data_steal, EFL_FUNC_CALL(type, data, free_func, free_data), int *type, void **data, void **free_func, void **free_data);
+
+Efl_Object *_ecore_event_message_efl_object_constructor(Eo *obj, Ecore_Event_Message_Data *pd);
+
+
+void _ecore_event_message_efl_object_destructor(Eo *obj, Ecore_Event_Message_Data *pd);
+
+
+static Eina_Bool
+_ecore_event_message_class_initializer(Efl_Class *klass)
+{
+   const Efl_Object_Ops *opsp = NULL, *copsp = NULL;
+
+#ifndef ECORE_EVENT_MESSAGE_EXTRA_OPS
+#define ECORE_EVENT_MESSAGE_EXTRA_OPS
+#endif
+
+   EFL_OPS_DEFINE(ops,
+      EFL_OBJECT_OP_FUNC(ecore_event_message_data_set, _ecore_event_message_data_set),
+      EFL_OBJECT_OP_FUNC(ecore_event_message_data_get, _ecore_event_message_data_get),
+      EFL_OBJECT_OP_FUNC(ecore_event_message_data_steal, _ecore_event_message_data_steal),
+      EFL_OBJECT_OP_FUNC(efl_constructor, _ecore_event_message_efl_object_constructor),
+      EFL_OBJECT_OP_FUNC(efl_destructor, _ecore_event_message_efl_object_destructor),
+      ECORE_EVENT_MESSAGE_EXTRA_OPS
+   );
+   opsp = &ops;
+
+#ifdef ECORE_EVENT_MESSAGE_EXTRA_CLASS_OPS
+   EFL_OPS_DEFINE(cops, ECORE_EVENT_MESSAGE_EXTRA_CLASS_OPS);
+   copsp = &cops;
+#endif
+
+   return efl_class_functions_set(klass, opsp, copsp);
+}
+
+static const Efl_Class_Description _ecore_event_message_class_desc = {
+   EO_VERSION,
+   "Ecore.Event.Message",
+   EFL_CLASS_TYPE_REGULAR,
+   sizeof(Ecore_Event_Message_Data),
+   _ecore_event_message_class_initializer,
+   NULL,
+   NULL
+};
+
+EFL_DEFINE_CLASS(ecore_event_message_class_get, &_ecore_event_message_class_desc, EFL_LOOP_MESSAGE_CLASS, NULL);

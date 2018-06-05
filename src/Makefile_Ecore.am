@@ -3,8 +3,6 @@
 
 ecore_eolian_files_legacy = \
 	lib/ecore/ecore_exe.eo \
-	lib/ecore/ecore_event_message.eo \
-	lib/ecore/ecore_event_message_handler.eo \
 	lib/ecore/efl_loop_timer.eo
 
 ecore_eolian_files_public = \
