@@ -6,8 +6,10 @@ BUILT_SOURCES =
 EOLIAN_FLAGS = -I$(srcdir)
 EOLIAN_GEN_FLAGS = -S
 
+if ! HAVE_WIN32
 LOG_COMPILER = dbus-run-session
 AM_LOG_FLAGS = --
+endif
 
 DIST_SUBDIRS =
 SUBDIRS =
