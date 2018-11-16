@@ -49,6 +49,8 @@ jobs:
       env:
         - os: linux
         - DISTRO=Archlinux
+  exclude:
+    - os: linux
 
 services:
   - docker
