@@ -103,6 +103,13 @@ else
       OPTS="$OPTS $MINGW_COPTS"
       docker exec $(cat $HOME/cid) sh -c 'rm -f /src/config.cache'
     fi
+
+    if [ "$1" = "coverity" ]; then
+      OPTS="$OPTS $ENABLED_LINUX_COPTS $WAYLAND_LINUX_COPTS"
+      docker exec $(cat $HOME/cid) sh -c 'rm -f /src/config.cache'
+      docker exec $(cat $HOME/cid) sh -c 'echo -e "#define _Float128 long double\n#define _Float64x long double\n#define _Float64 double\n#define _Float32x double\n#define _Float32 float" > /tmp/coverity.h'
+    fi
+
     docker exec $(cat $HOME/cid) sh -c 'rm -f ~/.ccache/ccache.conf'
     travis_fold autoreconf autoreconf
     if [ "$1" = "mingw" ]; then
@@ -112,7 +119,7 @@ else
         $(cat $HOME/cid) sh -c "autoreconf -iv"
     else
       docker exec --env MAKEFLAGS="-j5 -rR" --env EIO_MONITOR_POLL=1 --env CC="ccache gcc" \
-        --env CXX="ccache g++" --env CFLAGS="-fdirectives-only" --env CXXFLAGS="-fdirectives-only" \
+        --env CXX="ccache g++" --env CFLAGS="-fdirectives-only -include /tmp/coverity.h" --env CXXFLAGS="-fdirectives-only" \
         --env LD="ld.gold" $(cat $HOME/cid) sh -c "LIBTOOLIZE_OPTIONS='--no-warn' autoreconf -iv"
     fi
     travis_endfold autoreconf
@@ -123,7 +130,7 @@ else
         $(cat $HOME/cid) sh -c ".ci/configure.sh $OPTS"
     else
       docker exec --env MAKEFLAGS="-j5 -rR" --env EIO_MONITOR_POLL=1 --env CC="ccache gcc" \
-        --env CXX="ccache g++" --env CFLAGS="-fdirectives-only" --env CXXFLAGS="-fdirectives-only" \
+        --env CXX="ccache g++" --env CFLAGS="-fdirectives-only -include /tmp/coverity.h" --env CXXFLAGS="-fdirectives-only" \
         --env LD="ld.gold" $(cat $HOME/cid) sh -c ".ci/configure.sh $OPTS"
     fi
   else

@@ -9,6 +9,13 @@ AC_CONFIG_HEADERS([config.h])
 AH_TOP([
 #ifndef EFL_CONFIG_H__
 #define EFL_CONFIG_H__
+
+#define _Float128 long double
+#define _Float64x long double
+#define _Float64 double
+#define _Float32x double
+#define _Float32 float
+
 ])
 AH_BOTTOM([
 #endif /* EFL_CONFIG_H__ */

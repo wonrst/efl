@@ -54,6 +54,11 @@ jobs:
     - if: type = cron
       env:
         - os: linux
+        - DISTRO=Fedora28
+        - CI_BUILD_TYPE=coverity
+    - if: type = cron
+      env:
+        - os: linux
         - DISTRO=Debian91
     - if: type = cron
       env:

@@ -8,6 +8,9 @@ fi
 if [ "$1" = "mingw" ] ; then
   exit 0
 fi
+if [ "$1" = "coverity" ] ; then
+  exit 0
+fi
 travis_fold check-build "make check-build"
 if [ "$BUILDSYSTEM" = "ninja" ] ; then
   echo "Nothing to do here"
