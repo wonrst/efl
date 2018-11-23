@@ -20,6 +20,9 @@ else
       docker exec --env MAKEFLAGS="-j5 -rR" --env EIO_MONITOR_POLL=1 --env PATH="/cov/cov-analysis-linux64-2017.07/bin:$PATH" $(cat $HOME/cid) sh -c "cov-configure --comptype gcc --compiler /usr/bin/gcc"
       docker exec --env MAKEFLAGS="-j5 -rR" --env EIO_MONITOR_POLL=1 --env PATH="/cov/cov-analysis-linux64-2017.07/bin:$PATH" $(cat $HOME/cid) sh -c "cov-build --dir cov-int make"
       docker exec --env MAKEFLAGS="-j5 -rR" --env EIO_MONITOR_POLL=1 $(cat $HOME/cid) sh -c "tar caf efl-$(git describe).xz cov-int"
+      docker exec --env MAKEFLAGS="-j5 -rR" --env EIO_MONITOR_POLL=1 --env COVERITY_SCAN_TOKEN=$COVERITY_SCAN_TOKEN $(cat $HOME/cid) sh -c "curl --form token=$COVERITY_SCAN_TOKEN \
+      --form email=stefan@datenfreihafen.org  --form file=@efl-$(git describe).xz --form version=$(git describe) \
+      --form description="Normal CI cov build" https://scan.coverity.com/builds?project=Enlightenment+Foundation+Libraries"
     else
       docker exec --env MAKEFLAGS="-j5 -rR" --env EIO_MONITOR_POLL=1 $(cat $HOME/cid) make
     fi
