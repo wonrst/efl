@@ -105,7 +105,7 @@ else
     fi
 
     if [ "$1" = "coverity" ]; then
-      OPTS="$OPTS $ENABLED_LINUX_COPTS $WAYLAND_LINUX_COPTS"
+      OPTS="$OPTS $ENABLED_LINUX_COPTS $WAYLAND_LINUX_COPTS --disable-cxx-bindings --disable-scim --disable-physics --disable-poppler"
       docker exec $(cat $HOME/cid) sh -c 'rm -f /src/config.cache'
       docker exec $(cat $HOME/cid) sh -c 'echo -e "#define _Float128 long double\n#define _Float64x long double\n#define _Float64 double\n#define _Float32x double\n#define _Float32 float" > /tmp/coverity.h'
     fi
