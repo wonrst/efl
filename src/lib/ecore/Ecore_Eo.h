@@ -132,6 +132,7 @@ EAPI Eo *efl_app_get(void);
 #include "efl_model_composite_boolean_children.eo.h"
 #include "efl_model_composite_selection.eo.h"
 #include "efl_model_composite_selection_children.eo.h"
+#include "efl_model_view.eo.h"
 
 /**
  * @}
