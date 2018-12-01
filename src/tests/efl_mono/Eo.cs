@@ -339,7 +339,7 @@ class TestCsharpProperties
     public static void test_iface_property()
     {
         int val = -33;
-        Dummy.TestIface iface = new Dummy.TestObject();
+        Dummy.ITestIface iface = new Dummy.TestObject();
         iface.IfaceProp = val;
         Test.AssertEquals(val, iface.IfaceProp);
     }

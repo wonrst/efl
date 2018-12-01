@@ -82,7 +82,8 @@ inline bool is_property_blacklisted(attributes::property_def const& property)
     auto name = name_helpers::klass_full_concrete_or_interface_name(property.klass) + "." + name_helpers::property_managed_name(property);
     return name == "Efl.Input.Key.Key"
         || name == "Efl.Input.Hold.Hold"
-        || name == "Efl.Text.Text";
+        // Still can uncomment line below as event changing to IText, it would conflict with Efl.Ui.Text.
+        || name == "Efl.IText.Text";
 }
 
 }

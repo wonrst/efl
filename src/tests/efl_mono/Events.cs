@@ -216,8 +216,8 @@ class TestInterfaceEvents
             another_called = true;
         };
 
-        ((Dummy.TestIface)obj).ConflictedEvt += cb;
-        ((Dummy.AnotherIface)obj).ConflictedEvt += another_cb;
+        ((Dummy.ITestIface)obj).ConflictedEvt += cb;
+        ((Dummy.IAnotherIface)obj).ConflictedEvt += another_cb;
 
         obj.EmitTestConflicted();
         Test.Assert(test_called);

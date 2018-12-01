@@ -269,7 +269,7 @@ struct klass_interface_name_generator
   template <typename T>
   std::string operator()(T const& klass) const
   {
-    return utils::remove_all(klass.eolian_name, '_');
+    return "I" + utils::remove_all(klass.eolian_name, '_');
   }
     
   template <typename OutputIterator, typename Attr, typename Context>
