@@ -176,6 +176,11 @@ inline std::string managed_namespace(std::string const& ns)
   return escape_keyword(utils::remove_all(ns, '_'));
 }
 
+inline std::string managed_namespaces(std::vector<std::string> namespaces)
+{
+  return join_namespaces(namespaces, '.', managed_namespace);
+}
+
 inline std::string managed_method_name(attributes::function_def const& f)
 {
   std::vector<std::string> names = utils::split(f.name, '_');
@@ -212,7 +217,7 @@ inline std::string type_full_eolian_name(attributes::regular_type_def const& typ
 
 inline std::string type_full_managed_name(attributes::regular_type_def const& type)
 {
-   return join_namespaces(type.namespaces, '.', managed_namespace) + utils::remove_all(type.base_type, '_');
+   return managed_namespaces(type.namespaces) + utils::remove_all(type.base_type, '_');
 }
 
 inline std::string struct_full_eolian_name(attributes::struct_def const& struct_)
@@ -279,7 +284,7 @@ struct klass_full_interface_name_generator
   template <typename T>
   std::string operator()(T const& klass) const
   {
-    return join_namespaces(klass.namespaces, '.', managed_namespace) + klass_interface_name(klass);
+    return managed_namespaces(klass.namespaces) + klass_interface_name(klass);
   }
     
   template <typename OutputIterator, typename Attr, typename Context>
@@ -303,7 +308,7 @@ struct klass_full_concrete_name_generator
   template <typename T>
   std::string operator()(T const& klass) const
   {
-    return join_namespaces(klass.namespaces, '.', managed_namespace) + klass_concrete_name(klass);
+    return managed_namespaces(klass.namespaces) + klass_concrete_name(klass);
   }
     
   template <typename OutputIterator, typename Attr, typename Context>
@@ -313,7 +318,7 @@ struct klass_full_concrete_name_generator
   }
 } klass_full_concrete_name;
 
-struct klass_full_concrete_or_interface_name_generator
+struct klass_concrete_or_interface_name_generator
 {
   template <typename T>
   std::string operator()(T const& klass) const
@@ -322,10 +327,31 @@ struct klass_full_concrete_or_interface_name_generator
     {
     case attributes::class_type::abstract_:
     case attributes::class_type::regular:
-      return klass_full_concrete_name(klass);
+      return klass_concrete_name(klass);
     }
-    return klass_full_interface_name(klass);
+    return klass_interface_name(klass);
 
+  }
+
+  template <typename OutputIterator, typename Context>
+  bool generate(OutputIterator, attributes::unused_type, Context const&) const
+  {
+    return true;
+  }
+
+  template <typename OutputIterator, typename Attr, typename Context>
+  bool generate(OutputIterator sink, Attr const& attribute, Context const& context) const
+  {
+    return as_generator((*this).operator()<Attr>(attribute)).generate(sink, attributes::unused, context);
+  }
+} klass_concrete_or_interface_name;
+
+struct klass_full_concrete_or_interface_name_generator
+{
+  template <typename T>
+  std::string operator()(T const& klass) const
+  {
+    return managed_namespaces(klass.namespaces) + klass_concrete_or_interface_name(klass);
   }
 
   template <typename OutputIterator, typename Context>
@@ -373,13 +399,13 @@ inline std::string managed_event_name(std::string const& name)
 inline std::string managed_event_args_short_name(attributes::event_def const& evt)
 {
    std::string ret;
-     ret = klass_interface_name(evt.klass);
+     ret = klass_concrete_or_interface_name(evt.klass);
    return ret + name_helpers::managed_event_name(evt.name) + "_Args";
 }
 
 inline std::string managed_event_args_name(attributes::event_def evt)
 {
-   return join_namespaces(evt.klass.namespaces, '.', managed_namespace) +
+   return managed_namespaces(evt.klass.namespaces) +
           managed_event_args_short_name(evt);
 }
 
@@ -425,6 +451,11 @@ template <>
 struct is_generator<eolian_mono::name_helpers::klass_full_interface_name_generator> : std::true_type {};
 
 template <>
+struct is_eager_generator<eolian_mono::name_helpers::klass_concrete_or_interface_name_generator> : std::true_type {};
+template <>
+struct is_generator<eolian_mono::name_helpers::klass_concrete_or_interface_name_generator> : std::true_type {};
+
+template <>
 struct is_eager_generator<eolian_mono::name_helpers::klass_full_concrete_or_interface_name_generator> : std::true_type {};
 template <>
 struct is_generator<eolian_mono::name_helpers::klass_full_concrete_or_interface_name_generator> : std::true_type {};
@@ -435,6 +466,8 @@ template <>
 struct is_generator<eolian_mono::name_helpers::klass_full_concrete_name_generator> : std::true_type {};
 
 namespace type_traits {
+template <>
+struct attributes_needed<struct ::eolian_mono::name_helpers::klass_concrete_or_interface_name_generator> : std::integral_constant<int, 1> {};
 template <>
 struct attributes_needed<struct ::eolian_mono::name_helpers::klass_full_concrete_or_interface_name_generator> : std::integral_constant<int, 1> {};
 }
