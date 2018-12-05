@@ -34,6 +34,8 @@ namespace eolian_mono {
     struct native_convert_return_variable_generator;
     struct convert_function_pointer_generator;
     struct native_convert_function_pointer_generator;
+    struct constructor_param_generator;
+    struct constructor_invocation_generator;
 }
 
 namespace efl { namespace eolian { namespace grammar {
@@ -230,6 +232,26 @@ struct is_generator< ::eolian_mono::native_convert_function_pointer_generator> :
 namespace type_traits {
 template <>
 struct attributes_needed< ::eolian_mono::native_convert_function_pointer_generator> : std::integral_constant<int, 1> {};
+}
+
+template <>
+struct is_eager_generator< ::eolian_mono::constructor_param_generator> : std::true_type {};
+template <>
+struct is_generator< ::eolian_mono::constructor_param_generator> : std::true_type {};
+
+namespace type_traits {
+template <>
+struct attributes_needed< ::eolian_mono::constructor_param_generator> : std::integral_constant<int, 1> {};
+}
+
+template <>
+struct is_eager_generator< ::eolian_mono::constructor_invocation_generator> : std::true_type {};
+template <>
+struct is_generator< ::eolian_mono::constructor_invocation_generator> : std::true_type {};
+
+namespace type_traits {
+template <>
+struct attributes_needed< ::eolian_mono::constructor_invocation_generator> : std::integral_constant<int, 1> {};
 }
 
 } } }
@@ -1435,6 +1457,77 @@ struct native_convert_function_pointer_generator
    }
 
 } const native_convert_function_pointer {};
+
+// Generates the parameters for the given constructor
+// If the constructor receives multiple parameters, they get the name
+// of the constructor plus the name of the parameter (e.g. DefineParentData, DefineIndex)
+struct constructor_param_generator
+{
+  template<typename OutputIterator, typename Context>
+  bool generate(OutputIterator sink, attributes::constructor_def const& ctor, Context context) const
+  {
+     auto params = ctor.function.parameters;
+     bool need_suffix = params.size() > 1;
+     size_t idx = 0;
+
+     for (auto&& param : params)
+       {
+          auto param_name = name_helpers::constructor_managed_name(ctor.name);
+          if (need_suffix)
+            {
+               idx++;
+               param_name += "_" + param.param_name;
+               param_name = name_helpers::managed_name(param_name);
+               param_name += ((idx < params.size()) ? ", " : "");
+            }
+
+          if (!as_generator(
+                      type << " " << param_name
+                ).generate(sink, param.type, context))
+            return false;
+       }
+     return true;
+  }
+
+} const constructor_param;
+
+// Generates the invocation of the given parameter
+struct constructor_invocation_generator
+{
+  template<typename OutputIterator, typename Context>
+  bool generate(OutputIterator sink, attributes::constructor_def const& ctor, Context context) const
+  {
+     auto ctor_type = ctor.function.parameters[0].type;
+     if (!as_generator(
+                 name_helpers::managed_method_name(ctor.function) << "("
+             ).generate(sink, ctor_type, context))
+       return false;
+
+     auto params = ctor.function.parameters;
+     bool need_suffix = params.size() > 1;
+     size_t idx = 0;
+
+     for (auto&& param : params)
+       {
+          auto param_name = name_helpers::constructor_managed_name(ctor.name);
+          if (need_suffix)
+            {
+               idx++;
+               param_name += "_" + param.param_name;
+               param_name = name_helpers::managed_name(param_name);
+               param_name += + ((idx < params.size()) ? ", " : "");
+            }
+          if (!as_generator(param_name).generate(sink, attributes::unused, context))
+            return false;
+       }
+
+     if (!as_generator(");").generate(sink, ctor_type, context))
+       return false;
+     return true;
+  }
+
+} const constructor_invocation;
+
 
 }
 

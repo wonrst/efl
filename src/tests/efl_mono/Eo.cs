@@ -114,43 +114,6 @@ class TestEoNames
     }
 }
 
-class TestEoConstructingMethods
-{
-    public static void constructing_method()
-    {
-        bool called = false;
-        string name = "Test object";
-        var obj = new Dummy.TestObject(null, (Dummy.TestObject a) => {
-                called = true;
-                Console.WriteLine("callback: obj NativeHandle: {0:x}", a.NativeHandle);
-                a.SetName(name);
-            });
-
-        Test.Assert(called);
-        Test.AssertEquals(name, obj.GetName());
-    }
-
-    private class Derived : Dummy.TestObject
-    {
-        public Derived(Dummy.TestObject parent = null,
-                       Dummy.TestObject.ConstructingMethod cb = null) : base(parent, cb) {
-        }
-    }
-
-    public static void constructing_method_inherit()
-    {
-        bool called = false;
-        string name = "Another test object";
-        Derived obj = new Derived(null, (Dummy.TestObject a) => {
-                called = true;
-                a.SetComment(name);
-            });
-
-        Test.Assert(called);
-        Test.AssertEquals(name, obj.GetComment());
-    }
-}
-
 class TestEoParent
 {
     public static void basic_parent()
@@ -365,6 +328,9 @@ class TestEoGrandChildrenFinalize
 
     public sealed class GrandChild : Dummy.Child
     {
+
+        public GrandChild() : base(null, 0, "", 0) { }
+
         public int receivedValue = 0;
         public override Efl.Object FinalizeAdd()
         {
@@ -377,6 +343,18 @@ class TestEoGrandChildrenFinalize
     {
         GrandChild obj = new GrandChild();
         Test.AssertEquals(-42, obj.receivedValue);
+    }
+}
+
+class TestConstructors
+{
+    public static void test_simple_constructor()
+    {
+        int val = 42;
+        string a = "LFE";
+        double b = 3.14;
+        var obj = new Dummy.Child(null, val, a, b);
+        Test.AssertEquals(val, obj.IfaceProp);
     }
 }
 
