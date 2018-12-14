@@ -14,13 +14,13 @@ class Efl.Loop_Consumer (Efl.Object)
             loop: Efl.Loop; [[Efl loop]]
          }
       }
-      future_resolved {
+      future_resolved @const {
          params {
             result: any_value;
          }
          return: future<any_value>;
       }
-      future_rejected {
+      future_rejected @const {
          params {
             error: Eina.Error;
          }
