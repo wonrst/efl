@@ -1,0 +1,15 @@
+class Efl.Mono_Model_Internal (Efl.Object, Efl.Model)
+{
+  methods {
+    add_property {
+      params {
+        @in name: string;
+        @in type: void_ptr;
+      }
+    }
+  }
+  implements {
+    Efl.Object.constructor;
+    Efl.Object.destructor;
+  }
+}

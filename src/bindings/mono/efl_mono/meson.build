@@ -1,4 +1,4 @@
-mono_files += files('efl_all.cs')
+mono_files += files('efl_all.cs' 'MonoModel.cs')
 
 bash = find_program('bash')
 

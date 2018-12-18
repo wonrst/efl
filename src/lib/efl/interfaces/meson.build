@@ -72,6 +72,7 @@ pub_eo_files = [
   'efl_gfx_blur.eo',
   'efl_gfx_size_hint.eo',
   'efl_model.eo',
+  'efl_mono_model_internal.eo',
   'efl_animator.eo',
   'efl_interpolator.eo',
   'efl_orientation.eo',
@@ -157,6 +158,7 @@ pub_eo_types_files = []
 efl_src += files([
   'efl_interfaces_main.c',
   'efl_mvvm_common.c',
+  'efl_mono_model_internal.c',
   'efl_gfx_path.c',
   'efl_gfx_shape.c',
   'efl_gfx_color.c',
