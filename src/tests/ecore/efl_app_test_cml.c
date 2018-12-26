@@ -47,7 +47,7 @@ EFL_START_TEST(efl_core_cml_string)
    Eina_Bool b;
    int i = 0;
 
-   b = efl_core_command_line_fill_string(cml, _construct_string());
+   b = efl_core_command_line_command_string_set(cml, _construct_string());
    ck_assert_int_ne(b, 0);
 
    EINA_ACCESSOR_FOREACH(efl_core_command_line_command_access(cml), i, str)
@@ -66,7 +66,7 @@ EFL_START_TEST(efl_core_cml_array)
    Eina_Bool b;
    int i = 0;
 
-   b = efl_core_command_line_fill_array(cml, content);
+   b = efl_core_command_line_command_array_set(cml, content);
    ck_assert_int_ne(b, 0);
 
    EINA_ACCESSOR_FOREACH(efl_core_command_line_command_access(cml), i, str)
