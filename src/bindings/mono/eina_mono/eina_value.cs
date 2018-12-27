@@ -960,197 +960,315 @@ public class Value : IDisposable, IComparable<Value>, IEquatable<Value>
         return value;
     }
 
-    public bool Set(byte value)
+    public Value Set(byte value)
     {
+        bool result;
         SanityChecks();
 
         if (this.Optional)
-            return eina_value_optional_pset(this.Handle,
-                                            ValueTypeBridge.GetNative(ValueType.Byte),
-                                            ref value);
+        {
+            result = eina_value_optional_pset(this.Handle,
+                                              ValueTypeBridge.GetNative(ValueType.Byte),
+                                              ref value);
+        }
+        else
+        {
+            if (!GetValueType().IsNumeric())
+                throw (new ArgumentException(
+                            "Trying to set numeric value on a non-numeric Eina.Value"));
+            result = eina_value_set_wrapper_uchar(this.Handle, value);
+        }
 
-        if (!GetValueType().IsNumeric())
-            throw (new ArgumentException(
-                        "Trying to set numeric value on a non-numeric Eina.Value"));
-        return eina_value_set_wrapper_uchar(this.Handle, value);
+        if (!result)
+            throw (new SetItemFailedException("Failed to set item."));
+
+        return this;
     }
 
-    public bool Set(sbyte value)
+    public Value Set(sbyte value)
     {
+        bool result;
         SanityChecks();
 
         if (this.Optional)
-            return eina_value_optional_pset(this.Handle,
-                                            ValueTypeBridge.GetNative(ValueType.SByte),
-                                            ref value);
+        {
+            result = eina_value_optional_pset(this.Handle,
+                                              ValueTypeBridge.GetNative(ValueType.SByte),
+                                              ref value);
+        }
+        else
+        {
+            if (!GetValueType().IsNumeric())
+                throw (new ArgumentException(
+                            "Trying to set numeric value on a non-numeric Eina.Value"));
+            result = eina_value_set_wrapper_char(this.Handle, value);
+        }
 
-        if (!GetValueType().IsNumeric())
-            throw (new ArgumentException(
-                        "Trying to set numeric value on a non-numeric Eina.Value"));
-        return eina_value_set_wrapper_char(this.Handle, value);
+        if (!result)
+            throw (new SetItemFailedException("Failed to set item."));
+
+        return this;
     }
 
-    public bool Set(short value)
+    public Value Set(short value)
     {
+        bool result;
         SanityChecks();
 
         if (this.Optional)
-            return eina_value_optional_pset(this.Handle,
-                                            ValueTypeBridge.GetNative(ValueType.Short),
-                                            ref value);
+        {
+            result = eina_value_optional_pset(this.Handle,
+                                              ValueTypeBridge.GetNative(ValueType.Short),
+                                              ref value);
+        }
+        else
+        {
+            if (!GetValueType().IsNumeric())
+                throw (new ArgumentException(
+                            "Trying to set numeric value on a non-numeric Eina.Value"));
+            result = eina_value_set_wrapper_short(this.Handle, value);
+        }
 
-        if (!GetValueType().IsNumeric())
-            throw (new ArgumentException(
-                        "Trying to set numeric value on a non-numeric Eina.Value"));
-        return eina_value_set_wrapper_short(this.Handle, value);
+        if (!result)
+            throw (new SetItemFailedException("Failed to set item."));
+
+        return this;
     }
 
-    public bool Set(ushort value)
+    public Value Set(ushort value)
     {
+        bool result;
         SanityChecks();
 
         if (this.Optional)
-            return eina_value_optional_pset(this.Handle,
-                                            ValueTypeBridge.GetNative(ValueType.UShort),
-                                            ref value);
+        {
+            result = eina_value_optional_pset(this.Handle,
+                                              ValueTypeBridge.GetNative(ValueType.UShort),
+                                              ref value);
 
-        if (!GetValueType().IsNumeric())
-            throw (new ArgumentException(
-                        "Trying to set numeric value on a non-numeric Eina.Value"));
-        return eina_value_set_wrapper_ushort(this.Handle, value);
+        }
+        else
+        {
+            if (!GetValueType().IsNumeric())
+                throw (new ArgumentException(
+                            "Trying to set numeric value on a non-numeric Eina.Value"));
+            result = eina_value_set_wrapper_ushort(this.Handle, value);
+        }
+
+        if (!result)
+            throw (new SetItemFailedException("Failed to set item."));
+
+        return this;
     }
 
     /// <summary>Stores the given uint value.</summary>
-    public bool Set(uint value)
+    public Value Set(uint value)
     {
+        bool result;
         SanityChecks();
 
         if (this.Optional)
-            return eina_value_optional_pset(this.Handle,
-                                            ValueTypeBridge.GetNative(ValueType.UInt32),
-                                            ref value);
+        {
+            result = eina_value_optional_pset(this.Handle,
+                                          ValueTypeBridge.GetNative(ValueType.UInt32),
+                                          ref value);
+        }
+        else
+        {
+            if (!GetValueType().IsNumeric())
+                throw (new ArgumentException(
+                            "Trying to set numeric value on a non-numeric Eina.Value"));
+            result = eina_value_set_wrapper_uint(this.Handle, value);
+        }
 
-        if (!GetValueType().IsNumeric())
-            throw (new ArgumentException(
-                        "Trying to set numeric value on a non-numeric Eina.Value"));
-        return eina_value_set_wrapper_uint(this.Handle, value);
+        if (!result)
+            throw (new SetItemFailedException("Failed to set item."));
+
+        return this;
     }
 
     /// <summary>Stores the given int value.</summary>
-    public bool Set(int value)
+    public Value Set(int value)
     {
+        bool result;
         SanityChecks();
 
         if (this.Optional)
-            return eina_value_optional_pset(this.Handle,
-                                            ValueTypeBridge.GetNative(ValueType.Int32),
-                                            ref value);
+        {
+            result = eina_value_optional_pset(this.Handle,
+                                              ValueTypeBridge.GetNative(ValueType.Int32),
+                                              ref value);
+        }
+        else
+        {
+            if (!GetValueType().IsNumeric())
+                throw (new ArgumentException(
+                            "Trying to set numeric value on a non-numeric Eina.Value"));
+            result = eina_value_set_wrapper_int(this.Handle, value);
+        }
 
-        if (!GetValueType().IsNumeric())
-            throw (new ArgumentException(
-                        "Trying to set numeric value on a non-numeric Eina.Value"));
-        return eina_value_set_wrapper_int(this.Handle, value);
+        if (!result)
+            throw (new SetItemFailedException("Failed to set item."));
+
+        return this;
     }
 
     /// <summary>Stores the given ulong value.</summary>
-    public bool Set(ulong value)
+    public Value Set(ulong value)
     {
+        bool result;
         SanityChecks();
 
         if (this.Optional)
-            return eina_value_optional_pset(this.Handle,
-                                            ValueTypeBridge.GetNative(ValueType.ULong),
-                                            ref value);
+        {
+            result = eina_value_optional_pset(this.Handle,
+                                              ValueTypeBridge.GetNative(ValueType.ULong),
+                                              ref value);
+        }
+        else
+        {
+            if (!GetValueType().IsNumeric())
+                throw (new ArgumentException(
+                            "Trying to set numeric value on a non-numeric Eina.Value"));
+            result = eina_value_set_wrapper_ulong(this.Handle, value);
+        }
 
-        if (!GetValueType().IsNumeric())
-            throw (new ArgumentException(
-                        "Trying to set numeric value on a non-numeric Eina.Value"));
-        return eina_value_set_wrapper_ulong(this.Handle, value);
+        if (!result)
+                throw (new SetItemFailedException("Failed to set item."));
+
+        return this;
     }
 
     /// <summary>Stores the given int value.</summary>
-    public bool Set(long value)
+    public Value Set(long value)
     {
+        bool result;
         SanityChecks();
 
         if (this.Optional)
-            return eina_value_optional_pset(this.Handle,
-                                            ValueTypeBridge.GetNative(ValueType.Long),
-                                            ref value);
+        {
+            result = eina_value_optional_pset(this.Handle,
+                                              ValueTypeBridge.GetNative(ValueType.Long),
+                                              ref value);
+        }
+        else
+        {
+            if (!GetValueType().IsNumeric())
+                throw (new ArgumentException(
+                            "Trying to set numeric value on a non-numeric Eina.Value"));
+            result = eina_value_set_wrapper_long(this.Handle, value);
+        }
 
-        if (!GetValueType().IsNumeric())
-            throw (new ArgumentException(
-                        "Trying to set numeric value on a non-numeric Eina.Value"));
-        return eina_value_set_wrapper_long(this.Handle, value);
+        if (!result)
+            throw (new SetItemFailedException("Failed to set item."));
+
+        return this;
     }
 
     /// <summary>Stores the given int value.</summary>
-    public bool Set(float value)
+    public Value Set(float value)
     {
+        bool result;
         SanityChecks();
 
         if (this.Optional)
-            return eina_value_optional_pset(this.Handle,
-                                            ValueTypeBridge.GetNative(ValueType.Float),
-                                            ref value);
+        {
+            result = eina_value_optional_pset(this.Handle,
+                                              ValueTypeBridge.GetNative(ValueType.Float),
+                                              ref value);
+        }
+        else
+        {
+            if (!GetValueType().IsNumeric())
+                throw (new ArgumentException(
+                            "Trying to set numeric value on a non-numeric Eina.Value"));
 
-        if (!GetValueType().IsNumeric())
-            throw (new ArgumentException(
-                        "Trying to set numeric value on a non-numeric Eina.Value"));
+            result = eina_value_set_wrapper_float(this.Handle, value);
+        }
+        if (!result)
+            throw (new SetItemFailedException("Failed to set item."));
 
-        return eina_value_set_wrapper_float(this.Handle, value);
+        return this;
     }
 
     /// <summary>Stores the given int value.</summary>
-    public bool Set(double value)
+    public Value Set(double value)
     {
+        bool result;
         SanityChecks();
 
         if (this.Optional)
-            return eina_value_optional_pset(this.Handle,
-                                            ValueTypeBridge.GetNative(ValueType.Double),
-                                            ref value);
+        {
+            result = eina_value_optional_pset(this.Handle,
+                                              ValueTypeBridge.GetNative(ValueType.Double),
+                                              ref value);
+        }
+        else
+        {
 
-        if (!GetValueType().IsNumeric())
-            throw (new ArgumentException(
-                        "Trying to set numeric value on a non-numeric Eina.Value"));
-        return eina_value_set_wrapper_double(this.Handle, value);
+            if (!GetValueType().IsNumeric())
+                throw (new ArgumentException(
+                            "Trying to set numeric value on a non-numeric Eina.Value"));
+            result = eina_value_set_wrapper_double(this.Handle, value);
+        }
+
+        if (!result)
+            throw (new SetItemFailedException("Failed to set item."));
+
+        return this;
     }
 
     /// <summary>Stores the given string value.</summary>
-    public bool Set(string value)
+    public Value Set(string value)
     {
+        bool result;
         SanityChecks();
 
         if (this.Optional)
-            return eina_value_optional_pset(this.Handle,
-                                            ValueTypeBridge.GetNative(ValueType.String),
-                                            ref value);
+        {
+            result = eina_value_optional_pset(this.Handle,
+                                              ValueTypeBridge.GetNative(ValueType.String),
+                                              ref value);
+        }
+        else
+        {
 
-        if (!GetValueType().IsString())
-            throw (new ArgumentException(
-                        "Trying to set non-string value on a string Eina.Value"));
-        // No need to worry about ownership as eina_value_set will copy the passed string.
-        return eina_value_set_wrapper_string(this.Handle, value);
+            if (!GetValueType().IsString())
+                throw (new ArgumentException(
+                            "Trying to set non-string value on a string Eina.Value"));
+            // No need to worry about ownership as eina_value_set will copy the passed string.
+            result = eina_value_set_wrapper_string(this.Handle, value);
+        }
+
+        if (!result)
+            throw (new SetItemFailedException("Failed to set item."));
+
+        return this;
     }
 
     /// <summary>Stores the given error value.</summary>
-    public bool Set(Eina.Error value)
+    public Value Set(Eina.Error value)
     {
+        bool result;
         SanityChecks();
 
         int error_code = value;
 
         if (this.Optional)
-            return eina_value_optional_pset(this.Handle,
-                                            ValueTypeBridge.GetNative(ValueType.Error),
-                                            ref error_code);
+            result = eina_value_optional_pset(this.Handle,
+                                              ValueTypeBridge.GetNative(ValueType.Error),
+                                              ref error_code);
+        else
+            result = eina_value_set_wrapper_int(this.Handle, error_code);
 
-        return eina_value_set_wrapper_int(this.Handle, error_code);
+        if (!result)
+            throw (new SetItemFailedException("Failed to set item."));
+
+        return this;
     }
 
-    /// <summary>Stores the given value into this value. The target value must be an optional.</summary>
-    public bool Set(Value value)
+    /// <summary>Stores the given value into this value. The value this method is called on must be an optional.</summary>
+    public Value Set(Value value)
     {
         OptionalSanityChecks();
         ValueType subtype = value.GetValueType();
@@ -1165,23 +1283,27 @@ public class Value : IDisposable, IComparable<Value>, IEquatable<Value>
                 case ValueType.Array:
                     EinaNative.Value_Array value_array;
                     if (!eina_value_get_wrapper(value.Handle, out value_array))
-                        return false;
+                        throw (new SetItemFailedException("Couldn't get source value."));
                     Marshal.StructureToPtr(value_array, ptr_val, false);
                     break;
                 case ValueType.List:
                     EinaNative.Value_List value_list;
                     if (!eina_value_get_wrapper(value.Handle, out value_list))
-                        return false;
+                        throw (new SetItemFailedException("Couldn't get source value."));
                     Marshal.StructureToPtr(value_list, ptr_val, false);
                     break;
                 default:
                     throw new InvalidValueTypeException("Only containers can be passed as raw Eina.Values");
             }
 
-            return eina_value_optional_pset(this.Handle, native_type, ptr_val);
+            if (!eina_value_optional_pset(this.Handle, native_type, ptr_val))
+                throw (new SetItemFailedException("Failed to set item."));
+
         } finally {
             MemoryNative.Free(ptr_val);
         }
+
+        return this;
     }
 
     /// <summary>Gets the currently stored value as a byte.</summary>

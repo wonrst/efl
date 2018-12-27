@@ -15,7 +15,7 @@ public static class TestEinaValue {
     {
         using (Eina.Value v = new Eina.Value(Eina.ValueType.Byte)) {
             byte val = 0xff;
-            Test.Assert(v.Set(val));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => v.Set(val));
             byte x;
             Test.Assert(v.Get(out x));
             Test.AssertEquals(val, x);
@@ -26,7 +26,7 @@ public static class TestEinaValue {
     {
         using (Eina.Value v = new Eina.Value(Eina.ValueType.SByte)) {
             sbyte val = -45;
-            Test.Assert(v.Set(val));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => v.Set(val));
             sbyte x;
             Test.Assert(v.Get(out x));
             Test.AssertEquals(val, x);
@@ -37,7 +37,7 @@ public static class TestEinaValue {
     {
         using (Eina.Value v = new Eina.Value(Eina.ValueType.Short)) {
             short val = -128;
-            Test.Assert(v.Set(val));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => v.Set(val));
             short x;
             Test.Assert(v.Get(out x));
             Test.AssertEquals(val, x);
@@ -48,7 +48,7 @@ public static class TestEinaValue {
     {
         using (Eina.Value v = new Eina.Value(Eina.ValueType.UShort)) {
             ushort val = 0xff55;
-            Test.Assert(v.Set(val));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => v.Set(val));
             ushort x;
             Test.Assert(v.Get(out x));
             Test.AssertEquals(val, x);
@@ -59,7 +59,7 @@ public static class TestEinaValue {
     {
         using (Eina.Value v = new Eina.Value(Eina.ValueType.Long)) {
             long val = 0xdeadbeef;
-            Test.Assert(v.Set(val));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => v.Set(val));
             long x;
             Test.Assert(v.Get(out x));
             Test.AssertEquals(val, x);
@@ -70,7 +70,7 @@ public static class TestEinaValue {
     {
         using (Eina.Value v = new Eina.Value(Eina.ValueType.ULong)) {
             ulong val = 0xdeadbeef;
-            Test.Assert(v.Set(val));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => v.Set(val));
             ulong x;
             Test.Assert(v.Get(out x));
             Test.AssertEquals(val, x);
@@ -81,7 +81,7 @@ public static class TestEinaValue {
     {
         using (Eina.Value v = new Eina.Value(Eina.ValueType.Float)) {
             float val = 1.609344f;
-            Test.Assert(v.Set(val));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => v.Set(val));
             float x;
             Test.Assert(v.Get(out x));
             Test.AssertAlmostEquals(val, x);
@@ -92,7 +92,7 @@ public static class TestEinaValue {
     {
         using (Eina.Value v = new Eina.Value(Eina.ValueType.Double)) {
             double val = 1.609344;
-            Test.Assert(v.Set(val));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => v.Set(val));
             double  x;
             Test.Assert(v.Get(out x));
             Test.AssertAlmostEquals(val, x);
@@ -103,12 +103,12 @@ public static class TestEinaValue {
     public static void TestIntSimple()
     {
         using (Eina.Value v = new Eina.Value(Eina.ValueType.Int32)) {
-            Test.Assert(v.Set(32));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => v.Set(32));
             int x;
             Test.Assert(v.Get(out x));
             Test.AssertEquals(32, x);
 
-            Test.Assert(v.Set(-45));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => v.Set(-45));
             Test.Assert(v.Get(out x));
             Test.AssertEquals(-45, x);
         }
@@ -117,7 +117,7 @@ public static class TestEinaValue {
     public static void TestUIntSimple()
     {
         using (Eina.Value v = new Eina.Value(Eina.ValueType.Int32)) {
-            Test.Assert(v.Set(0xdeadbeef));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => v.Set(0xdeadbeef));
             uint x = 0;
             Test.Assert(v.Get(out x));
             Test.AssertEquals(0xdeadbeef, x);
@@ -128,7 +128,7 @@ public static class TestEinaValue {
     {
         using (Eina.Value v = new Eina.Value(Eina.ValueType.String)) {
             string expected_str = "Hello";
-            Test.Assert(v.Set(expected_str));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => v.Set(expected_str));
             string str = null;
             Test.Assert(v.Get(out str));
             Test.AssertEquals(expected_str, str);
@@ -139,7 +139,7 @@ public static class TestEinaValue {
     {
         using (Eina.Value v = new Eina.Value(Eina.ValueType.Error)) {
             Eina.Error error = new Eina.Error(Eina.Error.NO_ERROR);
-            Test.Assert(v.Set(error));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => v.Set(error));
             Eina.Error x;
             Test.Assert(v.Get(out x));
             Test.AssertEquals(error, x);
@@ -160,7 +160,7 @@ public static class TestEinaValue {
     public static void TestValueSetup()
     {
         using (Eina.Value v = new Eina.Value(Eina.ValueType.Int32)) {
-            Test.Assert(v.Set(44));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => v.Set(44));
             int x = 0;
             Test.Assert(v.Get(out x));
             Test.AssertEquals(44, x);
@@ -189,7 +189,7 @@ public static class TestEinaValue {
 
             // Sets expectation
             int expected = 1984;
-            Test.Assert(a.Set(expected));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => a.Set(expected));
             Test.Assert(a.Optional);
             Test.Assert(!a.OptionalEmpty);
 
@@ -197,7 +197,7 @@ public static class TestEinaValue {
             Test.Assert(a.OptionalEmpty);
 
             expected = -4891;
-            Test.Assert(a.Set(expected)); // Set() automatically infers the subtype from the argument.
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => a.Set(expected)); // Set() automatically infers the subtype from the argument.
             Test.Assert(!a.OptionalEmpty);
 
             int actual = 0;
@@ -213,7 +213,7 @@ public static class TestEinaValue {
 
             // Sets expectation
             uint expected = 1984;
-            Test.Assert(a.Set(expected));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => a.Set(expected));
             Test.Assert(a.Optional);
             Test.Assert(!a.OptionalEmpty);
 
@@ -221,7 +221,7 @@ public static class TestEinaValue {
             Test.Assert(a.OptionalEmpty);
 
             expected = 0xdeadbeef;
-            Test.Assert(a.Set(expected));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => a.Set(expected));
             Test.Assert(!a.OptionalEmpty);
 
             uint actual = 0;
@@ -243,7 +243,7 @@ public static class TestEinaValue {
 
             // Sets expectation
             string expected = "Hello, world!";
-            Test.Assert(a.Set(expected));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => a.Set(expected));
             Test.Assert(a.Optional);
             Test.Assert(!a.OptionalEmpty);
 
@@ -251,7 +251,7 @@ public static class TestEinaValue {
             Test.Assert(a.OptionalEmpty);
 
             expected = "!dlrow olleH";
-            Test.Assert(a.Set(expected));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => a.Set(expected));
             Test.Assert(!a.OptionalEmpty);
 
             string actual = String.Empty;
@@ -274,7 +274,7 @@ public static class TestEinaValue {
             Test.Assert(expected.Append(0));
             Test.Assert(expected.Append(2));
 
-            Test.Assert(a.Set(expected));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => a.Set(expected));
             Test.Assert(a.Optional);
             Test.Assert(!a.OptionalEmpty);
 
@@ -282,7 +282,7 @@ public static class TestEinaValue {
             Test.Assert(a.OptionalEmpty);
 
             expected.Append(-42);
-            Test.Assert(a.Set(expected));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => a.Set(expected));
             Test.Assert(!a.OptionalEmpty);
 
             Eina.Value actual = null;
@@ -290,7 +290,7 @@ public static class TestEinaValue {
             Test.AssertEquals(expected, actual);
 
             Test.Assert(a.Reset());
-            Test.Assert(a.Set(expected));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => a.Set(expected));
         }
     }
     public static void TestValueOptionalLists()
@@ -308,7 +308,7 @@ public static class TestEinaValue {
             Test.Assert(expected.Append(0));
             Test.Assert(expected.Append(2));
 
-            Test.Assert(a.Set(expected));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => a.Set(expected));
             Test.Assert(a.Optional);
             Test.Assert(!a.OptionalEmpty);
 
@@ -316,7 +316,7 @@ public static class TestEinaValue {
             Test.Assert(a.OptionalEmpty);
 
             expected.Append(-42);
-            Test.Assert(a.Set(expected));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => a.Set(expected));
             Test.Assert(!a.OptionalEmpty);
 
             Eina.Value actual = null;
@@ -329,15 +329,15 @@ public static class TestEinaValue {
     {
         using (Eina.Value a = new Eina.Value(Eina.ValueType.Int32))
         using (Eina.Value b = new Eina.Value(Eina.ValueType.Int32)) {
-            Test.Assert(a.Set(123));
-            Test.Assert(b.Set(123));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => a.Set(123));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => b.Set(123));
             Test.AssertEquals(0, a.CompareTo(b));
 
-            Test.Assert(a.Set(-10));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => a.Set(-10));
             Test.AssertLessThan(a, b);
 
-            Test.Assert(a.Set(123));
-            Test.Assert(b.Set(10));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => a.Set(123));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => b.Set(10));
             Test.AssertGreaterThan(a, b);
         }
     }
@@ -347,15 +347,15 @@ public static class TestEinaValue {
         using (Eina.Value a = new Eina.Value(Eina.ValueType.Int32))
         using (Eina.Value b = new Eina.Value(Eina.ValueType.Int32))
         using (Eina.Value c = new Eina.Value(Eina.ValueType.Int32)) {
-            Test.Assert(a.Set(1));
-            Test.Assert(b.Set(1));
-            Test.Assert(c.Set(1));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => a.Set(1));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => b.Set(1));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => c.Set(1));
 
             Test.Assert(a.Equals(a), "A equals A");
             Test.Assert(a.Equals(b) == b.Equals(a), "A equals B == B equals A");
             Test.Assert(a.Equals(b) == b.Equals(c) == a.Equals(c));
 
-            Test.Assert(b.Set(0));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => b.Set(0));
             Test.Assert(a.Equals(b) == b.Equals(a), "A equals B == B equals A");
 
             Test.Assert(a.Equals(null) == false, "A == null");
@@ -366,22 +366,22 @@ public static class TestEinaValue {
     {
         using (Eina.Value a = new Eina.Value(Eina.ValueType.Int32))
         using (Eina.Value b = new Eina.Value(Eina.ValueType.Int32)) {
-            Test.Assert(a.Set(1));
-            Test.Assert(b.Set(1));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => a.Set(1));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => b.Set(1));
 
             Test.Assert(a == b);
             Test.Assert(!(a != b));
             Test.Assert(b == a);
             Test.Assert(!(b != a));
 
-            Test.Assert(b.Set(42));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => b.Set(42));
 
             Test.Assert(a != b);
             Test.Assert(!(a == b));
             Test.Assert(b != a);
             Test.Assert(!(b == a));
 
-            Test.Assert(b.Set(42));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => b.Set(42));
 
         }
     }
@@ -390,8 +390,8 @@ public static class TestEinaValue {
     {
         using (Eina.Value a = new Eina.Value(Eina.ValueType.Int32))
         using (Eina.Value b = new Eina.Value(Eina.ValueType.Int32)) {
-            Test.Assert(a.Set(1));
-            Test.Assert(b.Set(0));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => a.Set(1));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => b.Set(0));
 
             Test.Assert(a > b);
             Test.Assert(!(a < b));
@@ -404,16 +404,16 @@ public static class TestEinaValue {
     {
         using (Eina.Value a = new Eina.Value(Eina.ValueType.String))
         using (Eina.Value b = new Eina.Value(Eina.ValueType.String)) {
-            Test.Assert(a.Set("aaa"));
-            Test.Assert(b.Set("aaa"));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => a.Set("aaa"));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => b.Set("aaa"));
             Test.AssertEquals(0, a.CompareTo(b));
 
-            Test.Assert(a.Set("abc"));
-            Test.Assert(b.Set("acd"));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => a.Set("abc"));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => b.Set("acd"));
             Test.AssertLessThan(a, b);
 
-            Test.Assert(a.Set("acd"));
-            Test.Assert(b.Set("abc"));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => a.Set("acd"));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => b.Set("abc"));
             Test.AssertGreaterThan(a, b);
         }
     }
@@ -514,19 +514,19 @@ public static class TestEinaValue {
         using(Eina.Value a = new Eina.Value(Eina.ValueType.Int32)) {
             int i = -12345;
             string x = $"{i}";
-            Test.Assert(a.Set(i));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => a.Set(i));
             Test.AssertEquals(x, a.ToString());
 
             uint u = 0xdeadbeef;
             x = $"{u}";
             Test.Assert(a.Setup(Eina.ValueType.UInt32));
-            Test.Assert(a.Set(u));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => a.Set(u));
             Test.AssertEquals(x, a.ToString());
 
             string s = "Hello, Johnny!";
             x = s;
             Test.Assert(a.Setup(Eina.ValueType.String));
-            Test.Assert(a.Set(s));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => a.Set(s));
             Test.AssertEquals(x, a.ToString());
         }
     }
@@ -541,7 +541,7 @@ public static class TestEinaValue {
             string target_str;
             string source_str = $"{source}";
 
-            Test.Assert(from.Set(source));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => from.Set(source));
             Test.Assert(from.ConvertTo(to));
             Test.Assert(to.Get(out target_uint));
             Test.AssertEquals(target_uint, (uint)source);
@@ -570,7 +570,7 @@ public static class TestEinaValue {
             string target_str;
             string source_str = $"{source}";
 
-            Test.Assert(from.Set(source));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => from.Set(source));
             Test.Assert(from.ConvertTo(to));
             Test.Assert(to.Get(out target_uint));
             Test.AssertEquals(target_uint, source);
@@ -806,7 +806,7 @@ public static class TestEinaValue {
         int raw_val = 42;
 
         using (Eina.Value v = new Eina.Value(Eina.ValueType.Int32)) {
-            Test.Assert(v.Set(raw_val));
+            Test.AssertNotRaises<Eina.SetItemFailedException>(() => v.Set(raw_val));
 
             v2 = new Eina.Value(v);
         }
@@ -814,6 +814,13 @@ public static class TestEinaValue {
         int rec_val;
         Test.Assert(v2.Get(out rec_val));
         Test.AssertEquals(raw_val, rec_val);
+    }
+
+    public static void TestChaining() {
+        var v = new Eina.Value(Eina.ValueType.Int32);
+
+        var other = v.Set(1994);
+        Test.AssertEquals(v, other);
     }
 
     // FIXME Add remaining list tests
