@@ -116,6 +116,28 @@ public static class TestEinaValueEolian {
             Test.AssertEquals(val, obj.value);
         }
     }
+
+    public static void TestEolianEinaValueImplicitOperators()
+    {
+        var obj = new Dummy.TestObject();
+        int payload = 1999;
+        obj.SetValue(payload);
+
+        var expected = new Eina.Value(1999);
+        var received = new Eina.Value(Eina.ValueType.String);
+
+        obj.OutValue(out received);
+        Test.AssertEquals(expected, received);
+        Test.AssertEquals(Eina.ValueType.Int32, received.GetValueType());
+
+        expected = new Eina.Value("Hallo");
+        obj.SetValue("Hallo");
+
+        obj.OutValue(out received);
+        Test.AssertEquals(expected, received);
+        Test.AssertEquals(Eina.ValueType.String, received.GetValueType());
+
+    }
 }
 #pragma warning restore 1591
 }

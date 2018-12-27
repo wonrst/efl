@@ -804,6 +804,72 @@ public class Value : IDisposable, IComparable<Value>, IEquatable<Value>
         return new Value(v);
     }
 
+    /// <summary>Implicit conversion.</summary>
+    public static implicit operator Value(byte x)
+    {
+        return new Eina.Value(ValueType.Byte).Set(x);
+    }
+
+    /// <summary>Implicit conversion.</summary>
+    public static implicit operator Value(sbyte x)
+    {
+        return new Eina.Value(ValueType.SByte).Set(x);
+    }
+
+    /// <summary>Implicit conversion.</summary>
+    public static implicit operator Value(short x)
+    {
+        return new Eina.Value(ValueType.Short).Set(x);
+    }
+
+    /// <summary>Implicit conversion.</summary>
+    public static implicit operator Value(ushort x)
+    {
+        return new Eina.Value(ValueType.UShort).Set(x);
+    }
+
+    /// <summary>Implicit conversion.</summary>
+    public static implicit operator Value(int x)
+    {
+        return new Eina.Value(ValueType.Int32).Set(x);
+    }
+
+    /// <summary>Implicit conversion.</summary>
+    public static implicit operator Value(uint x)
+    {
+        return new Eina.Value(ValueType.UInt32).Set(x);
+    }
+
+    /// <summary>Implicit conversion.</summary>
+    public static implicit operator Value(long x)
+    {
+        return new Eina.Value(ValueType.Long).Set(x);
+    }
+
+    /// <summary>Implicit conversion.</summary>
+    public static implicit operator Value(ulong x)
+    {
+        return new Eina.Value(ValueType.ULong).Set(x);
+    }
+
+    /// <summary>Implicit conversion.</summary>
+    public static implicit operator Value(float x)
+    {
+        return new Eina.Value(ValueType.Float).Set(x);
+    }
+
+    /// <summary>Implicit conversion.</summary>
+    public static implicit operator Value(double x)
+    {
+        return new Eina.Value(ValueType.Double).Set(x);
+    }
+
+    /// <summary>Implicit conversion.</summary>
+    public static implicit operator Value(string x)
+    {
+        return new Eina.Value(ValueType.String).Set(x);
+    }
+
     /// <summary>Creates an Value instance from a given array description.</summary>
     private static Value FromArrayDesc(Eina.EinaNative.Value_Array arrayDesc)
     {
