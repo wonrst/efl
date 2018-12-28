@@ -1,0 +1,14 @@
+class Efl.Ui.Model_Homogeneous (Efl.Ui.Model_Size)
+{
+   [[Class to be used to store object item size for List/Grid View.
+
+   This Model provide a property "Item.Width" and "Item.Height" which are identical
+   value for all its Child. The first Child that define "Self.Width" and "Self.Height"
+   value define it for everyone and define the Parent "Item.Width" and "Item.Height"
+   value. Subsequent set will fail with a Read Only error code.]]
+
+   implements {
+      Efl.Object.constructor;
+      Efl.Model.property { set; get; }
+   }
+}

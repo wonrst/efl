@@ -67,9 +67,10 @@
 # include "efl_ui_widget_focus_manager.eo.h"
 # include "efl_ui_focus_parent_provider_standard.eo.h"
 # include "elm_widget_item_static_focus.eo.h"
-#include "efl_ui_selection_manager.eo.h"
+# include "efl_ui_selection_manager.eo.h"
 # include "efl_datetime_manager.eo.h"
 # include "efl_ui_model_size.eo.h"
+# include "efl_ui_model_homogeneous.eo.h"
 
 extern const char *model_itemw;
 extern const char *model_itemh;
