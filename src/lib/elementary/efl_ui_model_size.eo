@@ -1,0 +1,14 @@
+class Efl.Ui.Model_Size (Efl.Model_Composite)
+{
+   [[Class to be used to store object item size for List/Grid View.
+
+   This Model provide property "Item.Width" and "Item.Height" for the root Model and
+   all children will provide "Self.Width" and "Self.Height" to be used by any View that
+   require to compute the size of their items. The cumulative value of all the children
+   known size information will be accumulated in "Total.Width" and "Total.Height".]]
+
+   data: null;
+   implements {
+      Efl.Model.properties { get; }
+   }
+}

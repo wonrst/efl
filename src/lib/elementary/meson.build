@@ -340,6 +340,7 @@ priv_eo_files = [
   'efl_ui_model_state.eo',
   'efl_ui_selection_manager.eo',
   'efl_datetime_manager.eo',
+  'efl_ui_model_size.eo',
 ]
 
 priv_eo_file_target = []
@@ -905,7 +906,8 @@ elementary_src = [
   'efl_ui_tab_bar.c',
   'efl_ui_tab_page.c',
   'efl_ui_widget_focus_manager.c',
-  'efl_ui_caching_factory.c'
+  'efl_ui_caching_factory.c',
+  'efl_ui_model_size.c'
 ]
 
 elementary_deps = [emile, eo, efl, edje, ethumb, ethumb_client, emotion, ecore_imf, ecore_con, eldbus, efreet, efreet_mime, efreet_trash, eio, atspi, dl, intl]

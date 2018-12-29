@@ -175,6 +175,7 @@ elm_private_eolian_files = \
 	tests/elementary/focus_test_sub_main.eo \
 	lib/elementary/efl_ui_selection_manager.eo \
 	lib/elementary/efl_datetime_manager.eo \
+	lib/elementary/efl_ui_model_size.eo \
 	$(NULL)
 
 # Legacy classes - not part of public EO API
@@ -886,6 +887,7 @@ lib_elementary_libelementary_la_SOURCES = \
 	lib/elementary/efl_ui_tab_page.c \
 	lib/elementary/efl_ui_widget_focus_manager.c \
 	lib/elementary/efl_ui_caching_factory.c \
+	lib/elementary/efl_ui_model_size.c \
 	$(NULL)
 
 
