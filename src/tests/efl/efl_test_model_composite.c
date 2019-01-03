@@ -165,7 +165,7 @@ EFL_START_TEST(efl_test_model_composite_selection)
    model = efl_add_ref(EFL_MODEL_COMPOSITE_SELECTION_CLASS, efl_main_loop_get(),
                    efl_ui_view_model_set(efl_added, base_model));
    ck_assert(!!model);
-   future = efl_model_property_set(model, "selected", eina_value_int_new(2));
+   future = efl_model_property_set(model, "child.selected", eina_value_int_new(2));
    eina_future_then(future, _wait_propagate, NULL, NULL);
    ecore_main_loop_begin();
 
