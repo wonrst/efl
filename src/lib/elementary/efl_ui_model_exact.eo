@@ -1,0 +1,14 @@
+class Efl.Ui.Model_Exact (Efl.Ui.Model_Size)
+{
+   [[Class to be used to store object item size for List/Grid View.
+
+   This Model does not provide a property "Item.Width" and "Item.Height",
+   but provide all the "Self.Width", "Self.Height", "Total.Width" and
+   "Total.Height". Each Child has a "Self.Height" and "Selft.Width" that
+   they can set and get.]]
+
+   implements {
+      Efl.Object.constructor;
+      Efl.Model.property { set; get; }
+   }
+}

@@ -71,6 +71,7 @@
 # include "efl_datetime_manager.eo.h"
 # include "efl_ui_model_size.eo.h"
 # include "efl_ui_model_homogeneous.eo.h"
+# include "efl_ui_model_exact.eo.h"
 
 extern const char *model_itemw;
 extern const char *model_itemh;
