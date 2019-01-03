@@ -1,6 +1,24 @@
 class Efl.Model_Composite (Efl.Model_Loop, Efl.Ui.View)
 {
-   [[Efl model for all composite class which provide a unified API to set source of data]]
+   [[Efl model for all composite class which provide a unified API to set source of data.
+
+   This class also provide a property "child.index" if it is not provided by the source.]]
+   methods {
+      @property index {
+         [[Position of children in the parent model.]]
+         set {
+            [[Set the index. It can only be set before the object is finalized,
+            but after the Model it compose is set and only if that Model does
+            not provide an index already.]]
+         }
+         get {
+            [[Get the index. It will only work after the object has been finalized.]]
+         }
+         values {
+            index: uint; [[The index of the child in the parent model.]]
+         }
+      }
+   }
    implements {
       Efl.Object.destructor;
       Efl.Object.finalize;
