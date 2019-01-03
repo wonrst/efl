@@ -72,7 +72,6 @@ pub_eo_files = [
   'efl_model_container.eo',
   'efl_model_container_item.eo',
   'efl_model_composite_boolean.eo',
-  'efl_model_composite_boolean_children.eo',
   'efl_model_composite_selection.eo',
   'efl_model_composite_selection_children.eo',
   'efl_model_composite.eo',
