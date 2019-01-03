@@ -978,6 +978,515 @@ eina_value_error_get(const Eina_Value *v, Eina_Error *err)
 }
 
 /**
+ * @brief Check value type and convert contents.
+ * @param v The value to check type and convert contents.
+ * @param c Where to store the value contents.
+ * @return #EINA_TRUE if type matches and fetched contents,
+ * #EINA_FALSE on different type or failures.
+ * @since 1.21
+ */
+static inline Eina_Bool
+eina_value_uchar_convert(const Eina_Value *v, unsigned char *c)
+{
+   Eina_Value dst = EINA_VALUE_EMPTY;
+   Eina_Bool r = EINA_FALSE;
+
+   EINA_SAFETY_ON_NULL_RETURN_VAL(c, EINA_FALSE);
+   EINA_SAFETY_ON_NULL_RETURN_VAL(v, EINA_FALSE);
+
+   // Try no convertion first
+   if (eina_value_uchar_get(v, c)) return EINA_TRUE;
+
+   if (!eina_value_setup(&dst, EINA_VALUE_TYPE_UCHAR)) return EINA_FALSE;
+   if (!eina_value_convert(v, &dst)) goto on_error;
+   if (!eina_value_uchar_get(&dst, c)) goto on_error;
+   r = EINA_TRUE;
+
+ on_error:
+   eina_value_flush(&dst);
+   return r;
+}
+
+/**
+ * @brief Check value type and convert contents.
+ * @param v The value to check type and convert contents.
+ * @param s Where to store the value contents.
+ * @return #EINA_TRUE if type matches and fetched contents,
+ * #EINA_FALSE on different type or failures.
+ * @since 1.21
+ */
+static inline Eina_Bool
+eina_value_ushort_convert(const Eina_Value *v, unsigned short *s)
+{
+   Eina_Value dst = EINA_VALUE_EMPTY;
+   Eina_Bool r = EINA_FALSE;
+
+   EINA_SAFETY_ON_NULL_RETURN_VAL(s, EINA_FALSE);
+   EINA_SAFETY_ON_NULL_RETURN_VAL(v, EINA_FALSE);
+
+   // Try no convertion first
+   if (eina_value_ushort_get(v, s)) return EINA_TRUE;
+
+   if (!eina_value_setup(&dst, EINA_VALUE_TYPE_USHORT)) return EINA_FALSE;
+   if (!eina_value_convert(v, &dst)) goto on_error;
+   if (!eina_value_ushort_get(&dst, s)) goto on_error;
+   r = EINA_TRUE;
+
+ on_error:
+   eina_value_flush(&dst);
+   return r;
+}
+
+/**
+ * @brief Check value type and convert contents.
+ * @param v The value to check type and convert contents.
+ * @param i Where to store the value contents.
+ * @return #EINA_TRUE if type matches and fetched contents,
+ * #EINA_FALSE on different type or failures.
+ * @since 1.21
+ */
+static inline Eina_Bool
+eina_value_uint_convert(const Eina_Value *v, unsigned int *i)
+{
+   Eina_Value dst = EINA_VALUE_EMPTY;
+   Eina_Bool r = EINA_FALSE;
+
+   EINA_SAFETY_ON_NULL_RETURN_VAL(i, EINA_FALSE);
+   EINA_SAFETY_ON_NULL_RETURN_VAL(v, EINA_FALSE);
+
+   // Try no convertion first
+   if (eina_value_uint_get(v, i)) return EINA_TRUE;
+
+   if (!eina_value_setup(&dst, EINA_VALUE_TYPE_UINT)) return EINA_FALSE;
+   if (!eina_value_convert(v, &dst)) goto on_error;
+   if (!eina_value_uint_get(&dst, i)) goto on_error;
+   r = EINA_TRUE;
+
+ on_error:
+   eina_value_flush(&dst);
+   return r;
+}
+
+/**
+ * @brief Check value type and convert contents.
+ * @param v The value to check type and convert contents.
+ * @param l Where to store the value contents.
+ * @return #EINA_TRUE if type matches and fetched contents,
+ * #EINA_FALSE on different type or failures.
+ * @since 1.21
+ */
+static inline Eina_Bool
+eina_value_ulong_convert(const Eina_Value *v, unsigned long *l)
+{
+   Eina_Value dst = EINA_VALUE_EMPTY;
+   Eina_Bool r = EINA_FALSE;
+
+   EINA_SAFETY_ON_NULL_RETURN_VAL(l, EINA_FALSE);
+   EINA_SAFETY_ON_NULL_RETURN_VAL(v, EINA_FALSE);
+
+   // Try no convertion first
+   if (eina_value_ulong_get(v, l)) return EINA_TRUE;
+
+   if (!eina_value_setup(&dst, EINA_VALUE_TYPE_ULONG)) return EINA_FALSE;
+   if (!eina_value_convert(v, &dst)) goto on_error;
+   if (!eina_value_ulong_get(&dst, l)) goto on_error;
+   r = EINA_TRUE;
+
+ on_error:
+   eina_value_flush(&dst);
+   return r;
+}
+
+/**
+ * @brief Check value type and convert contents.
+ * @param v The value to check type and convert contents.
+ * @param i Where to store the value contents.
+ * @return #EINA_TRUE if type matches and fetched contents,
+ * #EINA_FALSE on different type or failures.
+ * @since 1.21
+ */
+static inline Eina_Bool
+eina_value_uint64_convert(const Eina_Value *v, uint64_t *i)
+{
+   Eina_Value dst = EINA_VALUE_EMPTY;
+   Eina_Bool r = EINA_FALSE;
+
+   EINA_SAFETY_ON_NULL_RETURN_VAL(i, EINA_FALSE);
+   EINA_SAFETY_ON_NULL_RETURN_VAL(v, EINA_FALSE);
+
+   // Try no convertion first
+   if (eina_value_uint64_get(v, i)) return EINA_TRUE;
+
+   if (!eina_value_setup(&dst, EINA_VALUE_TYPE_UINT64)) return EINA_FALSE;
+   if (!eina_value_convert(v, &dst)) goto on_error;
+   if (!eina_value_uint64_get(&dst, i)) goto on_error;
+   r = EINA_TRUE;
+
+ on_error:
+   eina_value_flush(&dst);
+   return r;
+}
+
+/**
+ * @brief Check value type and convert contents.
+ * @param v The value to check type and convert contents.
+ * @param c Where to store the value contents.
+ * @return #EINA_TRUE if type matches and fetched contents,
+ * #EINA_FALSE on different type or failures.
+ * @since 1.21
+ */
+static inline Eina_Bool
+eina_value_char_convert(const Eina_Value *v, char *c)
+{
+   Eina_Value dst = EINA_VALUE_EMPTY;
+   Eina_Bool r = EINA_FALSE;
+
+   EINA_SAFETY_ON_NULL_RETURN_VAL(c, EINA_FALSE);
+   EINA_SAFETY_ON_NULL_RETURN_VAL(v, EINA_FALSE);
+
+   // Try no convertion first
+   if (eina_value_char_get(v, c)) return EINA_TRUE;
+
+   if (!eina_value_setup(&dst, EINA_VALUE_TYPE_CHAR)) return EINA_FALSE;
+   if (!eina_value_convert(v, &dst)) goto on_error;
+   if (!eina_value_char_get(&dst, c)) goto on_error;
+   r = EINA_TRUE;
+
+ on_error:
+   eina_value_flush(&dst);
+   return r;
+}
+
+/**
+ * @brief Check value type and convert contents.
+ * @param v The value to check type and convert contents.
+ * @param s Where to store the value contents.
+ * @return #EINA_TRUE if type matches and fetched contents,
+ * #EINA_FALSE on different type or failures.
+ * @since 1.21
+ */
+static inline Eina_Bool
+eina_value_short_convert(const Eina_Value *v, short *s)
+{
+   Eina_Value dst = EINA_VALUE_EMPTY;
+   Eina_Bool r = EINA_FALSE;
+
+   EINA_SAFETY_ON_NULL_RETURN_VAL(s, EINA_FALSE);
+   EINA_SAFETY_ON_NULL_RETURN_VAL(v, EINA_FALSE);
+
+   // Try no convertion first
+   if (eina_value_short_get(v, s)) return EINA_TRUE;
+
+   if (!eina_value_setup(&dst, EINA_VALUE_TYPE_SHORT)) return EINA_FALSE;
+   if (!eina_value_convert(v, &dst)) goto on_error;
+   if (!eina_value_short_get(&dst, s)) goto on_error;
+   r = EINA_TRUE;
+
+ on_error:
+   eina_value_flush(&dst);
+   return r;
+}
+
+/**
+ * @brief Check value type and convert contents.
+ * @param v The value to check type and convert contents.
+ * @param i Where to store the value contents.
+ * @return #EINA_TRUE if type matches and fetched contents,
+ * #EINA_FALSE on different type or failures.
+ * @since 1.21
+ */
+static inline Eina_Bool
+eina_value_int_convert(const Eina_Value *v, int *i)
+{
+   Eina_Value dst = EINA_VALUE_EMPTY;
+   Eina_Bool r = EINA_FALSE;
+
+   EINA_SAFETY_ON_NULL_RETURN_VAL(i, EINA_FALSE);
+   EINA_SAFETY_ON_NULL_RETURN_VAL(v, EINA_FALSE);
+
+   // Try no convertion first
+   if (eina_value_int_get(v, i)) return EINA_TRUE;
+
+   if (!eina_value_setup(&dst, EINA_VALUE_TYPE_INT)) return EINA_FALSE;
+   if (!eina_value_convert(v, &dst)) goto on_error;
+   if (!eina_value_int_get(&dst, i)) goto on_error;
+   r = EINA_TRUE;
+
+ on_error:
+   eina_value_flush(&dst);
+   return r;
+}
+
+/**
+ * @brief Check value type and convert contents.
+ * @param v The value to check type and convert contents.
+ * @param l Where to store the value contents.
+ * @return #EINA_TRUE if type matches and fetched contents,
+ * #EINA_FALSE on different type or failures.
+ * @since 1.21
+ */
+static inline Eina_Bool
+eina_value_long_convert(const Eina_Value *v, long *l)
+{
+   Eina_Value dst = EINA_VALUE_EMPTY;
+   Eina_Bool r = EINA_FALSE;
+
+   EINA_SAFETY_ON_NULL_RETURN_VAL(l, EINA_FALSE);
+   EINA_SAFETY_ON_NULL_RETURN_VAL(v, EINA_FALSE);
+
+   // Try no convertion first
+   if (eina_value_long_get(v, l)) return EINA_TRUE;
+
+   if (!eina_value_setup(&dst, EINA_VALUE_TYPE_LONG)) return EINA_FALSE;
+   if (!eina_value_convert(v, &dst)) goto on_error;
+   if (!eina_value_long_get(&dst, l)) goto on_error;
+   r = EINA_TRUE;
+
+ on_error:
+   eina_value_flush(&dst);
+   return r;
+}
+
+/**
+ * @brief Check value type and convert contents.
+ * @param v The value to check type and convert contents.
+ * @param i Where to store the value contents.
+ * @return #EINA_TRUE if type matches and fetched contents,
+ * #EINA_FALSE on different type or failures.
+ * @since 1.21
+ */
+static inline Eina_Bool
+eina_value_int64_convert(const Eina_Value *v, int64_t *i)
+{
+   Eina_Value dst = EINA_VALUE_EMPTY;
+   Eina_Bool r = EINA_FALSE;
+
+   EINA_SAFETY_ON_NULL_RETURN_VAL(i, EINA_FALSE);
+   EINA_SAFETY_ON_NULL_RETURN_VAL(v, EINA_FALSE);
+
+   // Try no convertion first
+   if (eina_value_int64_get(v, i)) return EINA_TRUE;
+
+   if (!eina_value_setup(&dst, EINA_VALUE_TYPE_INT64)) return EINA_FALSE;
+   if (!eina_value_convert(v, &dst)) goto on_error;
+   if (!eina_value_int64_get(&dst, i)) goto on_error;
+   r = EINA_TRUE;
+
+ on_error:
+   eina_value_flush(&dst);
+   return r;
+}
+
+/**
+ * @brief Check value type and convert contents.
+ * @param v The value to check type and convert contents.
+ * @param f Where to store the value contents.
+ * @return #EINA_TRUE if type matches and fetched contents,
+ * #EINA_FALSE on different type or failures.
+ * @since 1.21
+ */
+static inline Eina_Bool
+eina_value_float_convert(const Eina_Value *v, float *f)
+{
+   Eina_Value dst = EINA_VALUE_EMPTY;
+   Eina_Bool r = EINA_FALSE;
+
+   EINA_SAFETY_ON_NULL_RETURN_VAL(f, EINA_FALSE);
+   EINA_SAFETY_ON_NULL_RETURN_VAL(v, EINA_FALSE);
+
+   // Try no convertion first
+   if (eina_value_float_get(v, f)) return EINA_TRUE;
+
+   if (!eina_value_setup(&dst, EINA_VALUE_TYPE_FLOAT)) return EINA_FALSE;
+   if (!eina_value_convert(v, &dst)) goto on_error;
+   if (!eina_value_float_get(&dst, f)) goto on_error;
+   r = EINA_TRUE;
+
+ on_error:
+   eina_value_flush(&dst);
+   return r;
+}
+
+/**
+ * @brief Check value type and convert contents.
+ * @param v The value to check type and convert contents.
+ * @param d Where to store the value contents.
+ * @return #EINA_TRUE if type matches and fetched contents,
+ * #EINA_FALSE on different type or failures.
+ * @since 1.21
+ */
+static inline Eina_Bool
+eina_value_double_convert(const Eina_Value *v, double *d)
+{
+   Eina_Value dst = EINA_VALUE_EMPTY;
+   Eina_Bool r = EINA_FALSE;
+
+   EINA_SAFETY_ON_NULL_RETURN_VAL(d, EINA_FALSE);
+   EINA_SAFETY_ON_NULL_RETURN_VAL(v, EINA_FALSE);
+
+   // Try no convertion first
+   if (eina_value_double_get(v, d)) return EINA_TRUE;
+
+   if (!eina_value_setup(&dst, EINA_VALUE_TYPE_DOUBLE)) return EINA_FALSE;
+   if (!eina_value_convert(v, &dst)) goto on_error;
+   if (!eina_value_double_get(&dst, d)) goto on_error;
+   r = EINA_TRUE;
+
+ on_error:
+   eina_value_flush(&dst);
+   return r;
+}
+
+/**
+ * @brief Check value type and convert contents.
+ * @param v The value to check type and convert contents.
+ * @param b Where to store the value contents.
+ * @return #EINA_TRUE if type matches and fetched contents,
+ * #EINA_FALSE on different type or failures.
+ * @since 1.21
+ */
+static inline Eina_Bool
+eina_value_bool_convert(const Eina_Value *v, Eina_Bool *b)
+{
+   Eina_Value dst = EINA_VALUE_EMPTY;
+   Eina_Bool r = EINA_FALSE;
+
+   EINA_SAFETY_ON_NULL_RETURN_VAL(b, EINA_FALSE);
+   EINA_SAFETY_ON_NULL_RETURN_VAL(v, EINA_FALSE);
+
+   // Try no convertion first
+   if (eina_value_bool_get(v, b)) return EINA_TRUE;
+
+   if (!eina_value_setup(&dst, EINA_VALUE_TYPE_BOOL)) return EINA_FALSE;
+   if (!eina_value_convert(v, &dst)) goto on_error;
+   if (!eina_value_bool_get(&dst, b)) goto on_error;
+   r = EINA_TRUE;
+
+ on_error:
+   eina_value_flush(&dst);
+   return r;
+}
+
+/**
+ * @brief Check value type and convert contents.
+ * @param v The value to check type and convert contents.
+ * @param str Where to store the value contents.
+ * @return #EINA_TRUE if type matches and fetched contents,
+ * #EINA_FALSE on different type or failures.
+ * @since 1.21
+ */
+static inline Eina_Bool
+eina_value_string_convert(const Eina_Value *v, const char **str)
+{
+   Eina_Value dst = EINA_VALUE_EMPTY;
+   Eina_Bool r = EINA_FALSE;
+
+   EINA_SAFETY_ON_NULL_RETURN_VAL(str, EINA_FALSE);
+   EINA_SAFETY_ON_NULL_RETURN_VAL(v, EINA_FALSE);
+
+   // Try no convertion first
+   if (eina_value_string_get(v, str)) return EINA_TRUE;
+
+   if (!eina_value_setup(&dst, EINA_VALUE_TYPE_STRING)) return EINA_FALSE;
+   if (!eina_value_convert(v, &dst)) goto on_error;
+   if (!eina_value_string_get(&dst, str)) goto on_error;
+   r = EINA_TRUE;
+
+ on_error:
+   eina_value_flush(&dst);
+   return r;
+}
+
+/**
+ * @brief Check value type and convert contents.
+ * @param v The value to check type and convert contents.
+ * @param str Where to store the value contents.
+ * @return #EINA_TRUE if type matches and fetched contents,
+ * #EINA_FALSE on different type or failures.
+ * @since 1.21
+ */
+static inline Eina_Bool
+eina_value_stringshare_convert(const Eina_Value *v, const char **str)
+{
+   Eina_Value dst = EINA_VALUE_EMPTY;
+   Eina_Bool r = EINA_FALSE;
+
+   EINA_SAFETY_ON_NULL_RETURN_VAL(str, EINA_FALSE);
+   EINA_SAFETY_ON_NULL_RETURN_VAL(v, EINA_FALSE);
+
+   // Try no convertion first
+   if (eina_value_stringshare_get(v, str)) return EINA_TRUE;
+
+   if (!eina_value_setup(&dst, EINA_VALUE_TYPE_STRINGSHARE)) return EINA_FALSE;
+   if (!eina_value_convert(v, &dst)) goto on_error;
+   if (!eina_value_stringshare_get(&dst, str)) goto on_error;
+   r = EINA_TRUE;
+
+ on_error:
+   eina_value_flush(&dst);
+   return r;
+}
+
+/**
+ * @brief Check value type and convert contents.
+ * @param v The value to check type and convert contents.
+ * @param t Where to store the value contents.
+ * @return #EINA_TRUE if type matches and fetched contents,
+ * #EINA_FALSE on different type or failures.
+ * @since 1.21
+ */
+static inline Eina_Bool
+eina_value_time_convert(const Eina_Value *v, time_t *t)
+{
+   Eina_Value dst = EINA_VALUE_EMPTY;
+   Eina_Bool r = EINA_FALSE;
+
+   EINA_SAFETY_ON_NULL_RETURN_VAL(t, EINA_FALSE);
+   EINA_SAFETY_ON_NULL_RETURN_VAL(v, EINA_FALSE);
+
+   // Try no convertion first
+   if (eina_value_time_get(v, t)) return EINA_TRUE;
+
+   if (!eina_value_setup(&dst, EINA_VALUE_TYPE_TIMESTAMP)) return EINA_FALSE;
+   if (!eina_value_convert(v, &dst)) goto on_error;
+   if (!eina_value_time_get(&dst, t)) goto on_error;
+   r = EINA_TRUE;
+
+ on_error:
+   eina_value_flush(&dst);
+   return r;
+}
+
+/**
+ * @brief Check value type and convert contents.
+ * @param v The value to check type and convert contents.
+ * @param err Where to store the value contents.
+ * @return #EINA_TRUE if type matches and fetched contents,
+ * #EINA_FALSE on different type or failures.
+ * @since 1.21
+ */
+static inline Eina_Bool
+eina_value_error_convert(const Eina_Value *v, Eina_Error *err)
+{
+   Eina_Value dst = EINA_VALUE_EMPTY;
+
+   EINA_SAFETY_ON_NULL_RETURN_VAL(err, EINA_FALSE);
+   EINA_SAFETY_ON_NULL_RETURN_VAL(v, EINA_FALSE);
+
+   // Try no convertion first
+   if (eina_value_error_get(v, err)) return EINA_TRUE;
+
+   if (!eina_value_setup(&dst, EINA_VALUE_TYPE_ERROR)) return EINA_FALSE;
+   if (!eina_value_convert(v, &dst)) goto on_error;
+   if (!eina_value_error_get(&dst, err)) goto on_error;
+   return EINA_TRUE;
+
+ on_error:
+   eina_value_flush(&dst);
+   return EINA_FALSE;
+}
+
+/**
  * @brief Create a new #Eina_Value containing the passed parameter
  * @param val The value to use
  * @return The #Eina_Value
