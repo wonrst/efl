@@ -37,11 +37,35 @@ public class MonoModel<T> : Efl.MonoModelInternal, IDisposable
    {
        // System.IntPtr child = 
        
-       // var properties = typeof(T).GetProperties();
-       // foreach(var prop in properties)
-       // {
-           
-       // }
+       var properties = typeof(T).GetProperties();
+       foreach(var prop in properties)
+       {
+           Eina.Value v;
+           if (prop.PropertyType == typeof(int))
+           {
+               v = new Eina.Value(Eina.ValueType.Int32);
+               v.Set((int)prop.GetValue(o));
+           }
+           else if (prop.PropertyType == typeof(string))
+           {
+               v = new Eina.Value(Eina.ValueType.String);
+               v.Set((string)prop.GetValue(o));
+           }
+           else
+               throw new Exception("Type unknown " + prop.PropertyType.Name);
+           child.SetProperty(prop.Name, v);
+       }
+   }
+
+   public dynamic this[string key]
+   {
+       get
+       {
+           return false;
+       }
+       set
+       {
+       }
    }
    // void Dispose(bool disposing)
    // {
