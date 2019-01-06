@@ -328,6 +328,12 @@ option('mono',
   description: 'Flag for handling c# bindings'
 )
 
+option('mono-beta',
+  type: 'boolean',
+  value: false,
+  description: 'Flag for enabling @beta Eo methods in the api'
+)
+
 option('native-arch-optimization',
   type: 'boolean',
   value: true,
