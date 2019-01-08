@@ -25,7 +25,7 @@ public static class TestModel {
         Console.WriteLine ("end of test");
     }
 
-    public static void easy_model_extraction ()
+    internal static async System.Threading.Tasks.Task easy_model_extraction_async()
     {
         Efl.MonoModel<VeggieViewModel> veggies = new Efl.MonoModel<VeggieViewModel>();
         veggies.Add (new VeggieViewModel{ Name="Tomato", Type="Fruit", Image="tomato.png"});
@@ -33,11 +33,22 @@ public static class TestModel {
         veggies.Add (new VeggieViewModel{ Name="Zucchini", Type="Vegetable", Image="zucchini.png"});
 
         veggies["selected"] = true;
+        Console.WriteLine ("veggies size model {0}", veggies.GetChildrenCount());
 
         var model = new Efl.Mono2Model<VeggieViewModel>(veggies);
-        Console.WriteLine ("size model {0}", model.GetChildrenCount());
 
-        Console.WriteLine ("end of test");
+        Console.WriteLine ("Waiting");
+        var veggie1 = await model.GetItemAsync(1);
+        Console.WriteLine ("Waited");
+                
+        Console.WriteLine ("end of test veggie Name |" + veggie1.Name + "|");
+    }
+    
+    public static void easy_model_extraction ()
+    {
+        System.Threading.Tasks.Task task = easy_model_extraction_async();
+        //t.Start();
+        task.Wait();
     }
     
 }

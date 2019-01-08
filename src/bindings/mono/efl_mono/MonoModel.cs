@@ -35,7 +35,10 @@ public class MonoModel<T> : Efl.MonoModelInternal, IDisposable
    }
    public void Add (T o)
    {
-       // System.IntPtr child = 
+       Efl.Object obj = this.AddChild();
+       Debug.Assert(obj != null);
+       Efl.Model child = Efl.ModelConcrete.static_cast(obj);
+       Debug.Assert(child != null);
        
        var properties = typeof(T).GetProperties();
        foreach(var prop in properties)

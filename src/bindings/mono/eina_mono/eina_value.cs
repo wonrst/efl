@@ -710,7 +710,7 @@ public class Value : IDisposable, IComparable<Value>, IEquatable<Value>
     }
 
     // Constructor to be used by the "FromContainerDesc" methods.
-    private Value() {
+    public Value() {
         this.Handle = Alloc();
         this.Ownership = Ownership.Managed;
     }
