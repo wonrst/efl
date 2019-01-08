@@ -3,6 +3,7 @@
 #endif
 
 #include "Efl.h"
+#include "Ecore.h"
 #include <Eo.h>
 
 #include "efl_mono_model_internal.eo.h"
@@ -108,8 +109,6 @@ _efl_mono_model_internal_child_efl_model_property_set(Eo *obj, Efl_Mono_Model_In
   int i = _find_property_index (property, pd->model_pd->properties_names);
   int j;
   Eina_Value* old_value;
-  Eina_Promise *promise;
-  Eina_Future *future;
 
   if (i >= 0)
   {
@@ -124,20 +123,33 @@ _efl_mono_model_internal_child_efl_model_property_set(Eo *obj, Efl_Mono_Model_In
     /* promise = eian_promise_new (efl_loop_future_scheduler_get(obj), NULL, NULL); */
     /* future = eina_future_new (promise); */
     
-    return efl_loop_future_resolved(obj, value);
+    return efl_loop_future_resolved(obj, *value);
   }
   else
   {
     // not found property
-
-    return NULL;
+    return efl_loop_future_rejected(obj, EAGAIN);
   }
 }
 
-Eina_Value *
-_efl_mono_model_internal_child_efl_model_property_get(const Eo *obj, Efl_Mono_Model_Internal_Child_Data *pd, const char *property)
+static Eina_Value *
+_efl_mono_model_internal_child_efl_model_property_get(const Eo *obj EINA_UNUSED, Efl_Mono_Model_Internal_Child_Data *pd EINA_UNUSED, const char *property)
 {
   return eina_value_error_new(EAGAIN);
+}
+
+static Eina_Future *
+_efl_mono_model_internal_efl_model_children_slice_get(Eo *obj, Efl_Mono_Model_Internal_Data *pd, unsigned int start, unsigned int count EINA_UNUSED)
+{
+  unsigned int i;
+  Eina_Value array = EINA_VALUE_EMPTY;
+
+  eina_value_array_setup(&array, EINA_VALUE_TYPE_OBJECT, count % 8);
+
+  for (i = start; i != start + count; ++i)
+    eina_value_array_append (&array, eina_array_data_get(pd->items, i));
+    
+  return efl_loop_future_resolved(obj, array);
 }
 
 static Eo *
@@ -167,5 +179,5 @@ _efl_mono_model_internal_child_efl_model_properties_get(const Eo *obj EINA_UNUSE
   return eina_array_iterator_new (pd->model_pd->properties_names);
 }
 
-#include "interfaces/efl_mono_model_internal.eo.c"
-#include "interfaces/efl_mono_model_internal_child.eo.c"
+#include "efl_mono_model_internal.eo.c"
+#include "efl_mono_model_internal_child.eo.c"

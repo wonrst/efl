@@ -14,5 +14,6 @@ class Efl.Mono_Model_Internal (Efl.Object, Efl.Model)
     Efl.Model.properties { get; }
     Efl.Model.child_add;
     Efl.Model.children_count { get; }
+    Efl.Model.children_slice_get;
   }
 }
