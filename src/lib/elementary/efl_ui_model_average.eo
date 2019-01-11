@@ -1,0 +1,13 @@
+class Efl.Ui.Model_Average (Efl.Ui.Model_Exact)
+{
+   [[Class to be used to store object item size for List/Grid View.
+
+   This Model provide a property "Item.Width" and "Item.Height" which are an average
+   value of all the "Self.Width" and "Self.Height" of its Child. Each Child has a
+   "Self.Height" and "Selft.Width" that they can set and get.]]
+
+   implements {
+      Efl.Object.constructor;
+      Efl.Model.property { set; get; }
+   }
+}
