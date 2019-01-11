@@ -33,6 +33,7 @@
 #include <eolian/mono/marshall_annotation.hh>
 #include <eolian/mono/function_pointer.hh>
 #include <eolian/mono/alias_definition.hh>
+#include <eolian/mono/variable_definition.hh>
 
 namespace eolian_mono {
 
@@ -168,6 +169,22 @@ run(options_type const& opts)
            }
      }
 
+   // Constants
+   auto current_unit = ::eolian_state_unit_by_file_get(opts.state, basename_input.c_str());
+   if (!current_unit)
+     throw std::runtime_error("Failed to get unit for current file.");
+
+   for (efl::eina::iterator<const Eolian_Variable> var_iterator( ::eolian_unit_constants_get(current_unit))
+           , var_last; var_iterator != var_last; ++var_iterator)
+     {
+        efl::eolian::grammar::attributes::variable_def var(&*var_iterator, opts.unit);
+        auto var_cxt = context_add_tag(class_context{class_context::variables}, context);
+        if (!eolian_mono::constant_definition.generate(iterator, var, var_cxt))
+          {
+             throw std::runtime_error("Failed to generate enum");
+          }
+     }
+
    if (klass)
      {
        efl::eolian::grammar::attributes::klass_def klass_def(klass, opts.unit);
@@ -203,6 +220,7 @@ run(options_type const& opts)
              throw std::runtime_error("Failed to generate struct");
           }
      }
+
 }
 
 static void

@@ -91,6 +91,14 @@ inline typedecl_type typedecl_type_get(Eolian_Typedecl const* decl)
   }
 }
 
+enum class variable_type
+{
+  unknown,
+  constant,
+  global
+};
+
+
 struct type_def;
 bool operator==(type_def const& rhs, type_def const& lhs);
 bool operator!=(type_def const& rhs, type_def const& lhs);
@@ -854,6 +862,47 @@ struct property_def
          if (documentation.summary.empty())
            documentation = eolian_implement_documentation_get(implement, EOLIAN_PROP_SET);
       }
+  }
+};
+
+struct variable_def
+{
+  std::string name;
+  std::string full_name;
+  type_def base_type;
+  documentation_def documentation;
+  variable_type type;
+  std::vector<std::string> namespaces;
+  bool is_extern;
+  // FIXME What about the expression value?
+
+  friend inline bool operator==(variable_def const& lhs, variable_def const& rhs)
+  {
+    return lhs.name == rhs.name
+      && lhs.full_name == rhs.full_name
+      && lhs.base_type == rhs.base_type
+      && lhs.documentation == rhs.documentation
+      && lhs.type == rhs.type
+      && lhs.namespaces == rhs.namespaces
+      && lhs.is_extern == rhs.is_extern;
+  }
+
+  friend inline bool operator!=(variable_def const& lhs, variable_def const& rhs)
+  {
+    return !(lhs == rhs);
+  }
+
+  variable_def() = default;
+  variable_def(Eolian_Variable const* variable, Eolian_Unit const* unit)
+        : name(::eolian_variable_short_name_get(variable))
+        , full_name(::eolian_variable_name_get(variable))
+        , base_type(::eolian_variable_base_type_get(variable), unit, ::EOLIAN_C_TYPE_DEFAULT)
+  {
+     for(efl::eina::iterator<const char> namespace_iterator( ::eolian_variable_namespaces_get(variable))
+          , namespace_last; namespace_iterator != namespace_last; ++namespace_iterator)
+       {
+          this->namespaces.push_back((&*namespace_iterator));
+       }
   }
 };
 
