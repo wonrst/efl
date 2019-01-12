@@ -380,4 +380,24 @@ class TestEoGrandChildrenFinalize
     }
 }
 
+class TestEoGC
+{
+    public static void test_not_gc()
+    {
+        Efl.Loop mainloop = Efl.App.AppMain;
+        mainloop.IdleEvt += (object sender, EventArgs e) => {};
+        int i = 0;
+
+        new Efl.LoopTimer(mainloop, (Efl.LoopTimer etimer) => {
+                etimer.SetInterval(0.1);
+                etimer.TickEvt += (object sender, EventArgs e) => {
+                    Console.WriteLine("Tick {0}", ++i);
+                    if (i == 100)
+                        mainloop.Quit(0);
+                };
+            });
+        mainloop.Begin();
+    }
+}
+    
 }
