@@ -1,10 +1,8 @@
 #ifdef HAVE_CONFIG_H
 # include "elementary_config.h"
 #endif
-#include <check.h>
-#define EFL_NOLEGACY_API_SUPPORT
-#include <Efl_Ui.h>
-#include "../efl_check.h"
+
+#include "efl_ui_suite.h"
 
 EAPI_MAIN void
 efl_main(void *data EINA_UNUSED,
@@ -26,20 +24,10 @@ EFL_START_TEST(efl_ui_test_init)
    Eina_Value *ret__;
    int real__;
 
-   int argc = 2;
-   char *argv[] = { "efl_ui_suite", "test" };
-   _efl_startup_time = ecore_time_unix_get();
-   _EFL_APP_VERSION_SET();
-   fail_if(!ecore_init());
    efl_event_callback_add(efl_app_main_get(EFL_APP_CLASS), EFL_LOOP_EVENT_ARGUMENTS, efl_main, NULL);
-   fail_if(!ecore_init_ex(argc, argv));
-   __EFL_MAIN_CONSTRUCTOR;
    ret__ = efl_loop_begin(efl_app_main_get(EFL_APP_CLASS));
    real__ = efl_loop_exit_code_process(ret__);
    fail_if(real__ != 0);
-   __EFL_MAIN_DESTRUCTOR;
-   ecore_shutdown_ex();
-   ecore_shutdown();
 }
 EFL_END_TEST
 
@@ -48,20 +36,28 @@ void efl_ui_test(TCase *tc)
    tcase_add_test(tc, efl_ui_test_init);
 }
 
-
 static const Efl_Test_Case etc[] = {
   { "Efl_Ui", efl_ui_test },
+  { "Efl_Ui_Model", efl_ui_model },
   { NULL, NULL }
 };
 
 SUITE_INIT(efl_ui)
 {
-   //???
+   int argc = 2;
+   char *argv[] = { "efl_ui_suite", "test" };
+   _efl_startup_time = ecore_time_unix_get();
+   _EFL_APP_VERSION_SET();
+   fail_if(!ecore_init());
+   fail_if(!ecore_init_ex(argc, argv));
+   __EFL_MAIN_CONSTRUCTOR;
 }
 
 SUITE_SHUTDOWN(efl_ui)
 {
-
+   __EFL_MAIN_DESTRUCTOR;
+   ecore_shutdown_ex();
+   ecore_shutdown();
 }
 
 int

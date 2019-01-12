@@ -1613,7 +1613,9 @@ tests_elementary_elm_suite_LDADD = @CHECK_LIBS@ @USE_ELEMENTARY_LIBS@
 tests_elementary_elm_suite_DEPENDENCIES = @USE_ELEMENTARY_INTERNAL_LIBS@
 
 tests_elementary_efl_ui_suite_SOURCES = \
-	tests/elementary/efl_ui_suite.c
+	tests/elementary/efl_ui_suite.c \
+	tests/elementary/efl_ui_suite.h \
+	tests/elementary/efl_ui_model.c
 
 tests_elementary_efl_ui_suite_CPPFLAGS = \
 -DPACKAGE_BUILD_DIR=\"$(abs_top_builddir)\" \
