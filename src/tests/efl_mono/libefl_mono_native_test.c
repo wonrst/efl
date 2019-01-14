@@ -50,6 +50,9 @@ typedef struct Dummy_Test_Object_Data
   Dummy_SimpleCb cb;
   void *cb_data;
   Eina_Free_Cb free_cb;
+  Dummy_StructCb structcb_cb;
+  void *structcb_cb_data;
+  Eina_Free_Cb structcb_free_cb;
   Eina_Error error_code;
   Eina_Value *stored_value;
   Dummy_StructSimple stored_struct;
@@ -3124,6 +3127,33 @@ Eina_Iterator *_dummy_test_object_eina_iterator_obj_return_own(EINA_UNUSED Eo *o
 //                                 //
 // Callbacks and Function Pointers //
 //                                 //
+
+void _dummy_test_object_set_struct_callback(EINA_UNUSED Eo *obj, Dummy_Test_Object_Data *pd, void *cb_data, Dummy_StructCb cb, Eina_Free_Cb cb_free_cb)
+{
+   if (!pd)
+     {
+        EINA_LOG_ERR("Null private data");
+        return;
+     }
+
+   if (pd->structcb_free_cb)
+      pd->structcb_free_cb(pd->cb_data);
+
+   pd->structcb_cb = cb;
+   pd->structcb_cb_data = cb_data;
+   pd->structcb_free_cb = cb_free_cb;
+}
+
+int _dummy_test_object_call_struct_callback(EINA_UNUSED Eo *obj, Dummy_Test_Object_Data *pd, int a, Dummy_StructComplex b)
+{
+   if (!pd->structcb_cb)
+     {
+       EINA_LOG_ERR("Trying to call with no struct callback set");
+       return -1; // FIXME Maybe use Eina error when exceptions are supported?
+     }
+
+   return pd->structcb_cb(pd->structcb_cb_data, a, b);
+}
 
 void _dummy_test_object_set_callback(EINA_UNUSED Eo *obj, Dummy_Test_Object_Data *pd, void *cb_data, Dummy_SimpleCb cb, Eina_Free_Cb cb_free_cb)
 {

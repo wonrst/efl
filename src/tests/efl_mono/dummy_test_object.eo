@@ -91,6 +91,14 @@ function Dummy.FormatCb {
    }
 };
 
+function Dummy.StructCb {
+   params {
+      a: int;
+      b: Dummy.StructComplex;
+   }
+   return: int;
+};
+
 class Dummy.Test_Object extends Efl.Object implements Efl.Part, Dummy.Test_Iface, Dummy.Another_Iface {
 
    parts {
@@ -1280,6 +1288,20 @@ class Dummy.Test_Object extends Efl.Object implements Efl.Part, Dummy.Test_Iface
       }
 
      /* Function Pointer */
+
+     set_struct_callback {
+         params {
+            cb: Dummy.StructCb;
+         }
+      }
+
+      call_struct_callback {
+         params {
+            a: int;
+            b: Dummy.StructComplex;
+         }
+         return: int;
+      }
 
      set_callback {
          params {

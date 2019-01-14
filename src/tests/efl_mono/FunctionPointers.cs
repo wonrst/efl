@@ -8,6 +8,7 @@ class TestFunctionPointers
 {
 
     static bool called = false;
+    static bool struct_called = false;
 
     static int twice(int a)
     {
@@ -83,6 +84,30 @@ class TestFunctionPointers
         Test.AssertEquals(42 * 42, x);
     }
 
+    static int struct_cb1(int a, Dummy.StructComplex s)
+    {
+        struct_called = true;
+        StructHelpers.checkStructComplex(s);
+        return a * 2;
+    }
+    
+    public static void set_struct_callback_basic()
+    {
+        setup();
+        var obj = new Dummy.TestObject();
+        obj.SetStructCallback(struct_cb1);
+
+        Test.Assert(struct_called == false, "set_callback should not call the callback");
+
+        Dummy.StructComplex s = StructHelpers.structComplexWithValues();
+        
+        
+        int x = obj.CallStructCallback(42, s);
+
+        Test.Assert(struct_called, "call_callback must call a callback");
+        Test.AssertEquals(42 * 2, x);
+    }
+    
     class NoOverride : Dummy.TestObject {
     }
     public static void set_callback_inherited_no_override()
