@@ -31,6 +31,22 @@ struct constant_definition_generator
   bool generate(OutputIterator sink, attributes::variable_def constant, Context context) const
   {
     EINA_LOG_ERR("Would be generating variable [%s]", constant.full_name.c_str());
+
+    // Open partial class
+    if (!name_helpers::open_namespaces(sink, constant.namespaces, context))
+      return false;
+
+    if (!as_generator("public partial class Constants {\n").generate(sink, attributes::unused, context))
+      return false;
+
+    // declare variable
+
+    // Close partial class
+    if (!as_generator("}\n").generate(sink, attributes::unused, context))
+      return false;
+
+    if (!name_helpers::close_namespaces(sink, constant.namespaces, context))
+      return false;
     return true;
 
 

@@ -170,11 +170,8 @@ run(options_type const& opts)
      }
 
    // Constants
-   auto current_unit = ::eolian_state_unit_by_file_get(opts.state, basename_input.c_str());
-   if (!current_unit)
-     throw std::runtime_error("Failed to get unit for current file.");
-
-   for (efl::eina::iterator<const Eolian_Variable> var_iterator( ::eolian_unit_constants_get(current_unit))
+   EINA_LOG_ERR("Getting unit for file %s", basename_input.c_str());
+   for (efl::eina::iterator<const Eolian_Variable> var_iterator( ::eolian_state_constants_by_file_get(opts.state, basename_input.c_str()))
            , var_last; var_iterator != var_last; ++var_iterator)
      {
         efl::eolian::grammar::attributes::variable_def var(&*var_iterator, opts.unit);
