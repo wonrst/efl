@@ -29,6 +29,10 @@ if [ "$BUILDSYSTEM" = "ninja" ] ; then
             false
         done
       fi
+      docker exec --env MAKEFLAGS="-j5 -rR" --env EIO_MONITOR_POLL=1 $(cat $HOME/cid) ninja -C build install
+      docker exec --env MAKEFLAGS="-j5 -rR" --env EIO_MONITOR_POLL=1 $(cat $HOME/cid) sh -c 'cd /exactness-elm-data; git pull'
+      docker exec --env MAKEFLAGS="-j5 -rR" --env EIO_MONITOR_POLL=1 $(cat $HOME/cid) sh -c 'cd /exactness-elm-data; git checkout origin/devs/stefan/init-shots-docker-travis-ci -b docker'
+      docker exec --env MAKEFLAGS="-j5 -rR" --env EIO_MONITOR_POLL=1 --env LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib:/usr/local/lib64  $(cat $HOME/cid) exactness -j 20 -b /exactness-elm-data/default-profile -p /exactness-elm-data/default-profile/tests.txt
    fi
 else
   if [ "$DISTRO" != "" ] ; then
