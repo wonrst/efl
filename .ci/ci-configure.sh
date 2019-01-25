@@ -110,11 +110,6 @@ else
     if [ "$1" = "mingw" ]; then
       OPTS="$OPTS $MINGW_COPTS"
       docker exec $(cat $HOME/cid) sh -c 'rm -f /src/config.cache'
-      travis_fold bootstrap cross-build-bootstrap-mingw
-        docker exec $(cat $HOME/cid) meson build
-        docker exec $(cat $HOME/cid) ninja -C build install
-        docker exec $(cat $HOME/cid) rm -rf build/
-      travis_endfold bootstrap
     fi
     docker exec $(cat $HOME/cid) sh -c 'rm -f ~/.ccache/ccache.conf'
     travis_fold autoreconf autoreconf
