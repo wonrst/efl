@@ -2306,7 +2306,7 @@ eng_renderer_3d_get(void *output)
 static void *
 eng_drawable_new(void *engine, int w, int h, int alpha)
 {
-   eng_context_3d_use(engine);
+   eng_context_3d_use(gl_generic_output_find(engine));
 #ifdef GL_GLES
    return e3d_drawable_new(w, h, alpha, GL_DEPTH_STENCIL_OES, GL_NONE);
 #else
@@ -2317,7 +2317,7 @@ eng_drawable_new(void *engine, int w, int h, int alpha)
 static void
 eng_drawable_free(void *engine, void *drawable)
 {
-   eng_context_3d_use(engine);
+   eng_context_3d_use(gl_generic_context_find(engine, EINA_FALSE));
    e3d_drawable_free(drawable);
 }
 
@@ -2453,7 +2453,7 @@ eng_texture_image_set(void *engine, void *texture, void *image)
 {
    Evas_Engine_GL_Context *gl_context;
 
-   gl_context = gl_generic_context_get(engine, 1);
+   gl_context = gl_generic_context_find(engine, 1);
 
    e3d_texture_set(gl_context, (E3D_Texture *)texture, (Evas_GL_Image *)image);
 }
