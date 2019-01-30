@@ -198,6 +198,21 @@ _validate_typedecl(Validate_State *vals, Eolian_Typedecl *tp)
 }
 
 static Eina_Bool
+_validate_ptr(Eolian_Type *tp)
+{
+   if (tp->owned && tp->is_ptr)
+     {
+        const Eolian_Type *btp = eolian_type_aliased_base_get(tp);
+        if (eo_lexer_keyword_str_to_id(btp->base.name))
+          {
+             _eo_parser_log(&tp->base, "pointers to primitives cannot be owned");
+             return EINA_FALSE;
+          }
+     }
+   return _validate(&tp->base);
+}
+
+static Eina_Bool
 _validate_type(Validate_State *vals, Eolian_Type *tp)
 {
    const Eolian_Unit *src = tp->base.unit;
@@ -316,7 +331,7 @@ _validate_type(Validate_State *vals, Eolian_Type *tp)
                      _eo_parser_log(&tp->base, "builtin primitives cannot have a free function");
                      return EINA_FALSE;
                   }
-                return _validate(&tp->base);
+                return _validate_ptr(tp);
              }
            /* user defined */
            tp->tdecl = database_type_decl_find(src, tp);
@@ -332,7 +347,7 @@ _validate_type(Validate_State *vals, Eolian_Type *tp)
 
            /* to leave out slow checks if possible */
            if (!tp->owned)
-             return _validate(&tp->base);
+             return _validate_ptr(tp);
 
            /* most builtins are not allowed to have freefuncs, and
             * potential ownability has already been validated before
@@ -354,7 +369,7 @@ _validate_type(Validate_State *vals, Eolian_Type *tp)
                 _eo_parser_log(&tp->base, "type '%s' is not ownable", tp->base.name);
                 return EINA_FALSE;
              }
-           return _validate(&tp->base);
+           return _validate_ptr(tp);
         }
       case EOLIAN_TYPE_CLASS:
         {
