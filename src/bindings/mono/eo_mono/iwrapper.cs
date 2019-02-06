@@ -593,6 +593,47 @@ public class MarshalTest<T, U> : ICustomMarshaler
     }
 }
 
+///<summary>Marshals between System.Type instances and Eo classes (IntPtrs).</summary>
+public class MarshalEflClass : ICustomMarshaler
+{
+    public static ICustomMarshaler GetInstance(string cookie)
+    {
+        Eina.Log.Debug("MarshalTest.GetInstance cookie " + cookie);
+        return new MarshalEflClass();
+    }
+    public void CleanUpManagedData(object ManagedObj)
+    {
+    }
+
+    public void CleanUpNativeData(IntPtr pNativeData)
+    {
+    }
+
+    public int GetNativeDataSize()
+    {
+        Eina.Log.Debug("MarshalTest.GetNativeDataSize");
+        return 0;
+    }
+
+    public IntPtr MarshalManagedToNative(object ManagedObj)
+    {
+        Eina.Log.Debug("MarshalTest.MarshallManagedToNative");
+        Type t = ManagedObj as Type;
+
+        // FIXME Make it work for user-defined C# classes.
+        var method = t?.GetMethod("GetEflClassStatic",
+                                 System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+
+        return (IntPtr)method?.Invoke(null, null);
+    }
+
+    public object MarshalNativeToManaged(IntPtr pNativeData)
+    {
+        Eina.Log.Debug("MarshalTest.MarshalNativeToManaged");
+        throw new NotImplementedException();
+    }
+}
+
 public class StringPassOwnershipMarshaler : ICustomMarshaler {
     public object MarshalNativeToManaged(IntPtr pNativeData) {
         var ret = Eina.StringConversion.NativeUtf8ToManagedString(pNativeData);
