@@ -341,7 +341,7 @@ public class Hash<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>, IDi
 
     private static bool ForceRefKey<T>()
     {
-        return typeof(T) != typeof(string);
+        return (!typeof(T).IsValueType) && (typeof(T) != typeof(string));
     }
 
     private static IntPtr CopyNativeObject<T>(T value, bool forceRef)
@@ -491,10 +491,10 @@ public class Hash<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>, IDi
             for (IntPtr tuplePtr; eina_iterator_next(itr, out tuplePtr);)
             {
                 var tuple = Marshal.PtrToStructure<Eina.HashTupleNative>(tuplePtr);
-                IntPtr key = IndirectNative<TKey>(tuple.key, ForceRefKey<TKey>());
-                var ikey = NativeToManaged<TKey>(tuple.key);
+                IntPtr ikey = IndirectNative<TKey>(tuple.key, ForceRefKey<TKey>());
+                var key = NativeToManaged<TKey>(ikey);
                 var val = NativeToManaged<TValue>(tuple.data);
-                yield return new KeyValuePair<TKey, TValue>(ikey, val);
+                yield return new KeyValuePair<TKey, TValue>(key, val);
             }
         }
         finally
