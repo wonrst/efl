@@ -95,7 +95,7 @@ _noref_death(void *data EINA_UNUSED, const Efl_Event *event)
 }
 
 Efl_Input_Event *
-efl_input_event_instance_get(Eo *klass, Eo *owner)
+efl_input_event_instance_get(const Eo *klass, Eo *owner)
 {
    Efl_Input_Event *evt;
 
@@ -134,6 +134,8 @@ efl_input_event_instance_clean(Eo *klass)
 }
 
 /* Internal EO APIs */
+
+EOAPI Eo *efl_input_instance_get(const Efl_Class *cls, Efl_Object *owner, void **priv);
 
 EOAPI EFL_FUNC_BODY_CONST(efl_input_legacy_info_get, void *, NULL)
 EOAPI EFL_FUNC_BODYV_CONST(efl_input_instance_get, Efl_Input_Event *, NULL, EFL_FUNC_CALL(owner, priv), Efl_Object *owner, void **priv)
