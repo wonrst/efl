@@ -31,7 +31,7 @@ struct _Efl_Loop_Promise_Simple_Data
 GENERIC_ALLOC_SIZE_DECLARE(Efl_Loop_Promise_Simple_Data);
 
 EOLIAN static Efl_Loop_Message_Handler *
-_efl_loop_message_handler_get(Eo *obj EINA_UNUSED, void *pd EINA_UNUSED, Efl_Loop *loop, const Efl_Class *klass)
+_efl_loop_message_handler_get(Efl_Loop *loop, const Efl_Class *klass)
 {
    Message_Handler mh = { 0 }, *mh2;
    Efl_Loop_Data *ld = efl_data_scope_get(loop, EFL_LOOP_CLASS);
@@ -61,7 +61,7 @@ static void _clean_old_environ(void);
 EAPI Eo *
 efl_main_loop_get(void)
 {
-   return efl_app_main_get(EFL_APP_CLASS);
+   return efl_app_main_get();
 }
 
 EOLIAN static void
@@ -316,7 +316,7 @@ _efl_loop_efl_object_constructor(Eo *obj, Efl_Loop_Data *pd)
    pd->epoll_fd = -1;
    pd->timer_fd = -1;
    pd->future_message_handler = efl_loop_message_handler_get
-     (EFL_LOOP_CLASS, obj, EFL_LOOP_MESSAGE_FUTURE_HANDLER_CLASS);
+     (obj, EFL_LOOP_MESSAGE_FUTURE_HANDLER_CLASS);
    return obj;
 }
 

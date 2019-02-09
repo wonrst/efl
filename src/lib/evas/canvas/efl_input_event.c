@@ -138,13 +138,9 @@ efl_input_event_instance_clean(Eo *klass)
 EOAPI Eo *efl_input_instance_get(const Efl_Class *cls, Efl_Object *owner, void **priv);
 
 EOAPI EFL_FUNC_BODY_CONST(efl_input_legacy_info_get, void *, NULL)
-EOAPI EFL_FUNC_BODYV_CONST(efl_input_instance_get, Efl_Input_Event *, NULL, EFL_FUNC_CALL(owner, priv), Efl_Object *owner, void **priv)
 
 #define EFL_INPUT_EVENT_EXTRA_OPS \
    EFL_OBJECT_OP_FUNC(efl_input_legacy_info_get, NULL)
-
-#define EFL_INPUT_EVENT_EXTRA_CLASS_OPS \
-   EFL_OBJECT_OP_FUNC(efl_input_instance_get, NULL)
 
 #include "efl_input_event.eo.c"
 #include "efl_input_state.eo.c"
