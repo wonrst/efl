@@ -775,6 +775,7 @@ _gen_func(const Eolian_Class *cl, const Eolian_Function *fid,
           eina_strbuf_append_buffer(buf, params_full);
         eina_strbuf_append(buf, ")\n");
         eina_strbuf_append(buf, "{\n");
+        eina_strbuf_append_printf(buf, "%s();\n", eolian_class_c_get_function_name_get(cl));
         if (rtp)
           eina_strbuf_append(buf, "   return ");
         else

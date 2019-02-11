@@ -27,7 +27,7 @@ struct function_definition_generator
    function_definition_generator(attributes::klass_name const& name)
      : _klass_name(name)
    {}
-  
+
    template <typename OutputIterator, typename Context>
    bool generate(OutputIterator sink, attributes::function_def const& f, Context const& ctx) const
    {
@@ -48,7 +48,7 @@ struct function_definition_generator
           suffix = "INTERFACE";
           break;
         }
-      
+
       if(f.is_beta &&
          !as_generator("#ifdef " << *(string << "_") << string << "_BETA\n")
          .generate(sink, std::make_tuple(_klass_name.namespaces, _klass_name.eolian_name), add_upper_case_context(ctx)))
@@ -113,17 +113,19 @@ struct function_definition_generator
         ;
       if(!as_generator(*(out_declaration))
          .generate(sink, f.parameters, ctx)) return false;
-      
+
       if(!as_generator(scope_tab).generate(sink, attributes::unused, ctx)) return false;
-      
+
       if(f.return_type != attributes::void_
          && !as_generator(attributes::c_type({attributes::parameter_direction::in, f.return_type, "", attributes::documentation_def{}, f.unit})
                           << " __return_value = "
                           ).generate(sink, attributes::unused, ctx)) return false;
 
-      std::string object_flag;
-      if (f.is_static) object_flag = "_eo_class()";
-      else object_flag = "_eo_ptr()";
+      std::tuple<std::string> params;
+      if (f.is_static)
+        params = std::make_tuple(f.c_name, f.parameters)
+      else
+        params = std::make_tuple(f.c_name, "_eo_ptr()", f.parameters)
 
       if(!as_generator
          (" ::" << string << "(" << string <<
@@ -138,7 +140,7 @@ struct function_definition_generator
             )
           )
           << ");\n"
-         ).generate(sink, std::make_tuple(f.c_name, object_flag, f.parameters), ctx))
+         ).generate(sink, params, ctx))
         return false;
 
       auto out_assignments =
@@ -163,7 +165,7 @@ struct function_definition_generator
         ;
       if(!as_generator(*(out_assignments))
          .generate(sink, f.parameters, ctx)) return false;
-      
+
       if(f.return_type != attributes::void_
          && !as_generator(scope_tab << "return ::efl::eolian::convert_to_return< ::efl::eolian::return_traits<"
                           << type(true) << ">::type>(__return_value);\n"
@@ -201,7 +203,7 @@ namespace type_traits {
 template <>
 struct attributes_needed<function_definition_generator> : std::integral_constant<int, 1> {};
 }
-      
+
 struct function_definition_terminal
 {
   function_definition_generator operator()(attributes::klass_name name) const
@@ -209,7 +211,7 @@ struct function_definition_terminal
     return function_definition_generator{name};
   }
 } const function_definition = {};
-      
+
 } } }
 
 #endif

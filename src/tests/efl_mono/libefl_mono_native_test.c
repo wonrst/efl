@@ -3827,24 +3827,15 @@ Dummy_MyInt _dummy_test_object_bypass_typedef(EINA_UNUSED Eo *obj, EINA_UNUSED D
 /* Class Properties */
 static int _dummy_test_object_klass_prop = 0;
 
-int _dummy_test_object_klass_prop_get()
+int _dummy_test_object_klass_prop_get(void)
 {
-    EINA_LOG_ERR("FAIL on GET");
-   if (klass != dummy_test_object_class_get())
-     {
-        eina_error_set(EINVAL);
-        return -1;
-     }
+   EINA_LOG_ERR("FAIL on GET");
    return _dummy_test_object_klass_prop;
 }
 
 void _dummy_test_object_klass_prop_set(int value)
 {
-    EINA_LOG_ERR("FAIL on SET");
-   if (klass != dummy_test_object_class_get())
-     {
-        eina_error_set(EINVAL);
-     }
+   EINA_LOG_ERR("FAIL on SET");
    _dummy_test_object_klass_prop = value;
 }
 
