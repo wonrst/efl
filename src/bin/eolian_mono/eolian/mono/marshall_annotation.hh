@@ -1,6 +1,8 @@
 #ifndef EOLIAN_MONO_MARSHALL_ANNOTATION_IMPL_HH
 #define EOLIAN_MONO_MARSHALL_ANNOTATION_IMPL_HH
 
+#include "Eina.hh"
+
 #include "grammar/generator.hpp"
 #include "grammar/klass_def.hpp"
 #include "grammar/case.hpp"
@@ -124,7 +126,7 @@ struct marshall_annotation_visitor_generate
           , [&] (match const& m)
           {
             if (is_return)
-              std::cout << "comparing return type " << (m.name ? *m.name : "unknown")  << " with " << regular.base_type << std::endl;
+              EINA_CXX_DOM_LOG_DBG(eolian_mono::domain) << "comparing return type " << (m.name ? *m.name : "unknown")  << " with " << regular.base_type << std::endl;
             return (!m.name || *m.name == regular.base_type)
             && (!m.has_own || *m.has_own == (bool)(regular.base_qualifier & qualifier_info::is_own))
             ;

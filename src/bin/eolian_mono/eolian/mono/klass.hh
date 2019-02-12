@@ -675,7 +675,6 @@ struct klass
          return true;
 
      std::string visibility = is_inherit_context(context) ? "protected " : "private ";
-     bool root = !helpers::has_regular_ancestor(cls);
 
      if (!helpers::has_regular_ancestor(cls))
        {

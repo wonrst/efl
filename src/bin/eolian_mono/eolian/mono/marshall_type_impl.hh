@@ -32,7 +32,6 @@ struct marshall_type_visitor_generate
    bool operator()(attributes::regular_type_def const& regular) const
    {
       using attributes::regular_type_def;
-      bool is_inherit_native = context_find_tag<class_context>(*context).current_wrapper_kind == class_context::inherit_native;
 
       struct match
       {
