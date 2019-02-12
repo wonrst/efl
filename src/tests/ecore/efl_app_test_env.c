@@ -124,6 +124,19 @@ EFL_START_TEST(efl_core_env_test_undepend_fork)
 }
 EFL_END_TEST
 
+EFL_START_TEST(rasters_usecase)
+{
+   Efl_Core_Env *env = efl_env_self(EFL_CORE_PROC_ENV_CLASS);
+
+   ck_assert(env);
+
+   ck_assert_ptr_eq(efl_core_env_get(env, "BLAH"), NULL);
+   putenv("BLAH=10");
+   ck_assert_str_eq(efl_core_env_get(env, "BLAH"), "10");
+   efl_unref(env);
+}
+EFL_END_TEST
+
 void efl_test_efl_env(TCase *tc)
 {
    tcase_add_test(tc, efl_core_env_test_set_get);
@@ -132,4 +145,5 @@ void efl_test_efl_env(TCase *tc)
    tcase_add_test(tc, efl_core_env_test_fork);
    tcase_add_test(tc, efl_core_env_test_process);
    tcase_add_test(tc, efl_core_env_test_undepend_fork);
+   tcase_add_test(tc, rasters_usecase);
 }
