@@ -173,7 +173,7 @@ struct function_definition_generator
         << ") {\n "
         << eolian_mono::function_definition_preamble()
         << klass_full_native_inherit_name(f.klass) << "." << string << "_ptr.Value.Delegate("
-        << self 
+        << self
         << *(", " << argument_invocation ) << ");\n"
         << eolian_mono::function_definition_epilogue()
         << " }\n")
