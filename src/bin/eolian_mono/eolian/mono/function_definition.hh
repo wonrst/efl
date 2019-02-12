@@ -22,8 +22,6 @@
 #include "generation_contexts.hh"
 #include "blacklist.hh"
 
-#include <iostream>
-
 namespace eolian_mono {
 
 struct native_function_definition_generator
@@ -34,15 +32,13 @@ struct native_function_definition_generator
   bool generate(OutputIterator sink, attributes::function_def const& f, Context const& context) const
   {
     EINA_CXX_DOM_LOG_DBG(eolian_mono::domain) << "native_function_definition_generator: " << f.c_name << std::endl;
-    std::cout << "native_function_definition_generator: " << f.c_name << " F: return type " << f.return_type << std::endl;
-    if(blacklist::is_function_blacklisted(f, context)/* || f.is_static*/) // Only Concrete classes implement static methods.
+    if(blacklist::is_function_blacklisted(f, context))
       return true;
     else
       {
     if(!as_generator
        ("\n\n" << scope_tab
         << eolian_mono::marshall_annotation(true)
-        // << eolian_mono::marshall_native_annotation(true)
         << " private delegate "
         << eolian_mono::marshall_type(true)
         << " "
@@ -50,7 +46,7 @@ struct native_function_definition_generator
         << "_delegate(System.IntPtr obj, System.IntPtr pd"
         << *grammar::attribute_reorder<-1, -1>
         (
-         (", " << marshall_annotation /*marshall_native_annotation*/ << " " << marshall_parameter)
+         (", " << marshall_annotation << " " << marshall_parameter)
         )
         << ");\n")
        .generate(sink, std::make_tuple(f.return_type, f.return_type, f.c_name, f.parameters), context))
@@ -58,15 +54,13 @@ struct native_function_definition_generator
     if(!as_generator
        ("\n\n" << scope_tab
         << eolian_mono::marshall_annotation(true)
-        // << eolian_mono::marshall_native_annotation(true)
         << " public delegate "
         << eolian_mono::marshall_type(true)
         << " "
-        << string
-        << "_api_delegate(System.IntPtr obj"
+        << string << "_api_delegate(System.IntPtr obj"
         << *grammar::attribute_reorder<-1, -1>
         (
-         (", " << marshall_annotation /*marshall_native_annotation*/ << " " << marshall_parameter)
+         (", " << marshall_annotation << " " << marshall_parameter)
         )
         << ");\n")
        .generate(sink, std::make_tuple(f.return_type, f.return_type, f.c_name, f.parameters), context))
@@ -131,6 +125,10 @@ struct native_function_definition_generator
                  , context))
       return false;
 
+    // Static functions do not need to be called from C
+    if (f.is_static)
+      return true;
+
     // This is the delegate that will be passed to Eo to be called from C.
     if(!as_generator(
             scope_tab << "private static " << f.c_name << "_delegate " << f.c_name << "_static_delegate;\n"
@@ -153,21 +151,6 @@ struct function_definition_generator
     EINA_CXX_DOM_LOG_DBG(eolian_mono::domain) << "function_definition_generator: " << f.c_name << std::endl;
     if(blacklist::is_function_blacklisted(f, context))
       return true;
-
-    // if(!as_generator
-    //    ("\n\n" << scope_tab << "[System.Runtime.InteropServices.DllImport(" << context_find_tag<library_context>(context).actual_library_name(f.filename) << ")]\n"
-    //     << scope_tab << eolian_mono::marshall_annotation(true)
-    //     << (do_super ? " protected " : " private ") << "static extern "
-    //     << eolian_mono::marshall_type(true)
-    //     << " " << string
-    //     << "(System.IntPtr obj"
-    //     << *grammar::attribute_reorder<-1, -1>
-    //     (
-    //      (", " << marshall_annotation << " " << marshall_parameter)
-    //     )
-    //     << ");\n")
-    //    .generate(sink, std::make_tuple(f.return_type, f.return_type, f.c_name, f.parameters), context))
-    //   return false;
 
     std::string return_type;
     if(!as_generator(eolian_mono::type(true)).generate(std::back_inserter(return_type), f.return_type, context))
