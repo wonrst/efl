@@ -480,8 +480,6 @@ struct klass
 
      return as_generator(
                 scope_tab << visibility << " System.IntPtr handle;\n"
-                << scope_tab << "public Dictionary<String, IntPtr> cached_strings = new Dictionary<String, IntPtr>();" << "\n"
-                << scope_tab << "public Dictionary<String, IntPtr> cached_stringshares = new Dictionary<String, IntPtr>();" << "\n"
                 << scope_tab << "///<summary>Pointer to the native instance.</summary>\n"
                 << scope_tab << "public System.IntPtr NativeHandle {\n"
                 << scope_tab << scope_tab << "get { return handle; }\n"
@@ -607,8 +605,6 @@ struct klass
              << scope_tab << "///<summary>Releases the underlying native instance.</summary>\n"
              << scope_tab << "public void Dispose()\n"
              << scope_tab << "{\n"
-             << scope_tab << "Efl.Eo.Globals.free_dict_values(cached_strings);" << "\n"
-             << scope_tab << "Efl.Eo.Globals.free_stringshare_values(cached_stringshares);" << "\n"
              << scope_tab << scope_tab << "Dispose(true);\n"
              << scope_tab << scope_tab << "GC.SuppressFinalize(this);\n"
              << scope_tab << "}\n"
