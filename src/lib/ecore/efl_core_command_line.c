@@ -183,7 +183,7 @@ _escape(const char *s)
 EOLIAN static const char*
 _efl_core_command_line_command_get(const Eo *obj EINA_UNUSED, Efl_Core_Command_Line_Data *pd)
 {
-   return eina_strdup(pd->string_command);
+   return pd->string_command;
 }
 
 EOLIAN static Eina_Accessor*
