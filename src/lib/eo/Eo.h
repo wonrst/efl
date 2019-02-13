@@ -182,8 +182,6 @@ typedef Eo Efl_Class;
 typedef Eo Efl_Object;
 #define _EFL_OBJECT_EO_CLASS_TYPE
 
-#ifdef EFL_BETA_API_SUPPORT
-
 /**
  * @var _efl_class_creation_lock
  * This variable is used for locking purposes in the class_get function
@@ -1009,6 +1007,7 @@ EAPI Eina_Bool efl_object_init(void);
  */
 EAPI Eina_Bool efl_object_shutdown(void);
 
+#ifdef EFL_BETA_API_SUPPORT
 
 /**
  * The virtual allocation domain where an object lives
@@ -1193,6 +1192,7 @@ EAPI Eina_Bool        efl_domain_data_return(Efl_Id_Domain domain);
 EAPI Eina_Bool        efl_compatible(const Eo *obj, const Eo *obj_target);
 
 
+#endif
 
 
 // to fetch internal function and object data at once
@@ -2292,8 +2292,6 @@ EAPI Eina_Iterator *eo_objects_iterator_new(void);
 /**
  * @}
  */
-
-#endif
 
 #ifdef __cplusplus
 }
