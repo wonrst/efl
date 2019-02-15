@@ -40,11 +40,7 @@ namespace Efl {
       private static Components initComponent;
       //what follows are 3 private functions to boot up the internals of efl
       private static void Init(Efl.Csharp.Components component) {
-        Eina.Config.Init();
-        Efl.Eo.Config.Init();
         ecore_init();
-        evas_init();
-        eldbus.Config.Init();
 
         if (component == Components.Ui) {
           // TODO Support elm command line arguments
@@ -67,11 +63,7 @@ namespace Efl {
         if (initComponent == Components.Ui) {
           elm_shutdown();
         }
-        eldbus.Config.Shutdown();
-        evas_shutdown();
         ecore_shutdown();
-        Efl.Eo.Config.Shutdown();
-        Eina.Config.Shutdown();
       }
       /// <summary>
       /// Called when the application is started. Arguments from the command line are passed here.

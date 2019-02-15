@@ -4,8 +4,13 @@ using System.Runtime.CompilerServices;
 using System.Reflection;
 using System.Linq;
 
-class TestMain
+class TestMain : Efl.Csharp.Application
 {
+    static void Main() {
+        TestMain test = new TestMain();
+        test.Launch();
+    }
+
     static Type[] GetTestCases(String name="")
     {
         return Assembly.GetExecutingAssembly().GetTypes().Where(t => String.Equals(t.Namespace, "TestSuite", StringComparison.Ordinal) &&
@@ -13,7 +18,7 @@ class TestMain
                                                                 t.Name.Contains(name)).ToArray();
     }
 
-    static int Main(string[] args)
+    protected override void OnInitialize(Eina.Array<System.String> args)
     {
         Efl.All.Init();
 
@@ -23,7 +28,7 @@ class TestMain
         String ckRunCase = Environment.GetEnvironmentVariable("CK_RUN_CASE");
 
         if (ckRunSuite != null && !ckRunSuite.Equals("mono"))
-            return 0;
+            return;
 
         if (ckRunCase == null)
             ckRunCase = String.Empty;
@@ -93,8 +98,6 @@ class TestMain
         Console.WriteLine("[   END SUITE ] " + ckRunSuite);
 
         if (!pass)
-          return -1;
-
-        return 0;
+          System.Environment.Exit(-1);
     }
 }
