@@ -106,7 +106,7 @@ public class StringElementTraits : IBaseElementTraits<string>
 
     public void NativeFreeInplace(IntPtr nat)
     {
-        // MemoryNative.FreeRef(nat);
+        MemoryNative.FreeRef(nat);
     }
 
     public void ResidueFreeInplace(IntPtr nat)
@@ -186,12 +186,6 @@ public class EflObjectElementTraits<T> : IBaseElementTraits<T>
         return Efl.Eo.Globals.efl_ref(h);
     }
 
-    // public IntPtr ManagedToNativeAllocRef(T man, bool refs)
-    // {
-    //     IntPtr h = refs ? ManagedToNativeAlloc(man) : ((Efl.Eo.IWrapper)man).NativeHandle;
-    //     return h;
-    // }
-
     public IntPtr ManagedToNativeAllocInlistNode(T man)
     {
         var node = new InlistNode<IntPtr>();
@@ -215,11 +209,11 @@ public class EflObjectElementTraits<T> : IBaseElementTraits<T>
             Efl.Eo.Globals.efl_unref(nat);
     }
 
-    // public void NativeFreeRef(IntPtr nat, bool unrefs)
-    // {
-    //     if (unrefs)
-    //         NativeFree(nat);
-    // }
+    public void NativeFreeRef(IntPtr nat, bool unrefs)
+    {
+        if (unrefs)
+            NativeFree(nat);
+    }
 
     public void NativeFreeInlistNodeElement(IntPtr nat)
     {
