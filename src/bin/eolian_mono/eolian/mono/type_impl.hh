@@ -201,8 +201,6 @@ struct visitor_generate
               }} // FIXME add proper support for any_value_ptr
         };
         std::string full_type_name = name_helpers::type_full_eolian_name(regular);
-        // std::cout << "full_type_name: " << full_type_name << std::endl;
-        // assert(full_type_name != " System.String");
         if(eina::optional<bool> b = call_match
          (optional_match_table
           , [&] (match const& m)

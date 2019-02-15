@@ -10,15 +10,10 @@ using static Eina.HashNativeFunctions;
 using static Eina.InarrayNativeFunctions;
 using static Eina.InlistNativeFunctions;
 using static Eina.NativeCustomExportFunctions;
-using static Eina.ContainerCommonData;
 
 namespace Eina {
 
 public enum ElementType { NumericType, StringType, ObjectType };
-
-public static class ContainerCommonData
-{
-}
 
 [StructLayout(LayoutKind.Sequential)]
 public struct InlistMem
