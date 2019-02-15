@@ -37,6 +37,7 @@ if [ "$BUILDSYSTEM" = "ninja" ] ; then
 
     if [ "$1" = "mingw" ]; then
       OPTS="$OPTS $MINGW_COPTS"
+      docker exec $(cat $HOME/cid) sh -c 'rm -f /usr/local/bin/eolian_gen'
       docker exec $(cat $HOME/cid) sh -c '.ci/bootstrap_eolian.sh'
       docker exec $(cat $HOME/cid) sh -c 'dnf install --assumeyes mingw64-pkg-config mingw64-giflib mingw64-zlib'
     fi
