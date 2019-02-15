@@ -50,6 +50,7 @@ EFL_START_TEST(eina_test_vpath_snprintf)
 }
 EFL_END_TEST
 
+#if defined(HAVE_GETUID) && defined(HAVE_GETEUID)
 EFL_START_TEST(eina_test_vpath_user)
 {
    char buf[PATH_MAX];
@@ -63,11 +64,14 @@ EFL_START_TEST(eina_test_vpath_user)
    ck_assert_str_eq(buf, cmp);
 }
 EFL_END_TEST
+#endif
 
 void eina_test_vpath(TCase *tc)
 {
    tcase_add_test(tc, eina_test_vpath_invalid);
    tcase_add_test(tc, eina_test_vpath_valid);
    tcase_add_test(tc, eina_test_vpath_snprintf);
+#if defined(HAVE_GETUID) && defined(HAVE_GETEUID)
    tcase_add_test(tc, eina_test_vpath_user);
+#endif
 }

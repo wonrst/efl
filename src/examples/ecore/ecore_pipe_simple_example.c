@@ -47,7 +47,6 @@ main(void)
 
    pipe = ecore_pipe_add(handler, NULL);
 
-   child_pid = fork();
    if (!child_pid)
      {
         ecore_pipe_read_close(pipe);
