@@ -15,7 +15,7 @@ if [ "$BUILDSYSTEM" = "ninja" ] ; then
 
     DISABLED_LINUX_COPTS=" -Dsystemd=false"
 
-    MINGW_COPTS="--cross-file linux-mingw-w64-64bit.txt -Deeze=false -Dsystemd=false -Dnls=false -Dpulseaudio=false -Dx11=false -Dopengl=none -Dlibmount=false -Devas-loaders-disabler=pdf,ps,raw,svg -Devas-modules=static"
+    MINGW_COPTS="--cross-file .ci/linux-mingw-w64-64bit.txt -Deeze=false -Dsystemd=false -Dnls=false -Dpulseaudio=false -Dx11=false -Dopengl=none -Dlibmount=false -Devas-loaders-disabler=pdf,ps,raw,svg -Devas-modules=static"
 
     RELEASE_READY_LINUX_COPTS=" --buildtype=release"
 
