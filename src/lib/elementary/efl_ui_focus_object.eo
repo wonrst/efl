@@ -55,9 +55,9 @@ mixin @beta Efl.Ui.Focus.Object
             }
         }
         @property child_focus @protected {
-            [[set if a child of this element has focus or not.]]
+            [[Set if a child of this element has focus.]]
             values {
-               child_focus : bool;
+               child_focus : bool; [[$true when a child has focus.]]
             }
         }
         prepare_logical {
@@ -68,7 +68,7 @@ mixin @beta Efl.Ui.Focus.Object
             ]]
         }
         prepare_logical_none_recursive @protected {
-            [[]]
+            [[For internal use only.]]
         }
         on_focus_update @protected {
            [[Virtual function handling focus in/out events on the widget]]
