@@ -152,6 +152,7 @@ dist_installed_eflheaders_DATA = \
 installed_eflinterfacesdir = $(includedir)/efl-@VMAJ@/interfaces
 nodist_installed_eflinterfaces_DATA = \
 	$(efl_eolian_files_h) \
+	lib/efl/interfaces/efl_file.h \
 	$(efl_eolian_legacy_files_h)
 
 if HAVE_LUA_BINDINGS

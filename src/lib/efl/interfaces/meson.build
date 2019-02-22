@@ -174,6 +174,7 @@ efl_src += files([
   'efl_io_queue.c',
   'efl_observer.c',
   'efl_file.c',
+  'efl_file.h',
   'efl_ui_format.c',
   'efl_ui_direction_readonly.c',
   'efl_text_markup_util.c',
