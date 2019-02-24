@@ -43,6 +43,19 @@ class @beta Efl.Ui.Layout extends Efl.Ui.Widget implements Efl.Container, Efl.Fi
             style: string("default"); [[The style to use, eg "default".]]
          }
       }
+      @property automatic_orientation {
+        [[This flag tells if this object will automatically mirror the rotation changes of the window to this object.
+        ]]
+        values {
+           automatic : bool; [[$true to mirror orientation changes to the theme $false otherwise]]
+        }
+      }
+      orientation_apply {
+        [[Apply a new orientation value to this object.]]
+        params {
+          orientation : int; [[The new orientation value]]
+        }
+      }
    }
    implements {
       class.constructor;

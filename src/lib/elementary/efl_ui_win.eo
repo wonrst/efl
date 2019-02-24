@@ -845,6 +845,15 @@ class @beta Efl.Ui.Win extends Efl.Ui.Widget implements Efl.Canvas.Scene, Efl.Ac
          }
          return: iterator<const(Efl.Input.Pointer)>; [[Iterator to pointer positions]]
       }
+      @property orientation {
+         [[The orientation of this window, it can be either 0 90 180 270 or 360.
+
+           The value will automatically change when the WM of this window changes its rotiation. This rotiation is automatically applied to all Efl.Ui.Layout objects.
+         ]]
+         values {
+           orientation : int; [[Orientation, legal values are 0,90,180,270,360.]]
+         }
+      }
    }
    implements {
       class.constructor;

@@ -2394,6 +2394,7 @@ _efl_ui_layout_efl_object_finalize(Eo *obj, Efl_Ui_Layout_Data *pd EINA_UNUSED)
 
    eo = efl_finalize(efl_super(obj, MY_CLASS));
    efl_ui_widget_theme_apply(eo);
+   efl_ui_layout_orientation_apply(obj, efl_ui_win_orientation_get(efl_ui_widget_top_get(obj)));
 
    return eo;
 }
@@ -2575,6 +2576,35 @@ _efl_ui_layout_part_bg_efl_object_finalize(Eo *obj, void *_pd EINA_UNUSED)
 
    return obj;
 }
+
+EOLIAN static void
+_efl_ui_layout_automatic_orientation_set(Eo *obj, Efl_Ui_Layout_Data *pd, Eina_Bool automatic)
+{
+   if (pd->automatic_orientation_apply == automatic) return;
+   pd->automatic_orientation_apply = automatic;
+
+   efl_ui_layout_orientation_apply(obj, efl_ui_win_orientation_get(efl_ui_widget_top_get(obj)));
+}
+
+EOLIAN static Eina_Bool
+_efl_ui_layout_automatic_orientation_get(const Eo *obj EINA_UNUSED, Efl_Ui_Layout_Data *pd)
+{
+   return pd->automatic_orientation_apply;
+}
+
+EOLIAN static void
+_efl_ui_layout_orientation_apply(Eo *obj, Efl_Ui_Layout_Data *pd EINA_UNUSED, int orientation)
+{
+   char prefix[4], buf[128];
+
+   if (elm_widget_is_legacy(obj))
+     snprintf(prefix, sizeof(prefix), "elm");
+   else
+     snprintf(prefix, sizeof(prefix), "efl");
+   snprintf(buf, sizeof(buf), "%s,state,orient,%d", prefix, orientation);
+   efl_layout_signal_emit(obj, buf, prefix);
+}
+
 
 /* Efl.Ui.Layout_Part_Xxx includes */
 #include "efl_ui_layout_part.eo.c"

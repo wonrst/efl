@@ -35,6 +35,7 @@
 #include "efl_ui_win_legacy.eo.h"
 #include "efl_ui_win_socket_legacy.eo.h"
 #include "efl_ui_win_inlined_legacy.eo.h"
+#include "efl_ui_widget_common.h"
 
 #define MY_CLASS EFL_UI_WIN_CLASS
 #define MY_CLASS_NAME "Efl.Ui.Win"
@@ -212,6 +213,7 @@ struct _Efl_Ui_Win_Data
    int          norender;
    int          modal_count;
    int          response;
+   int          orientation;
    Eina_Bool    req_wh : 1;
    Eina_Bool    req_xy : 1;
 
@@ -1558,6 +1560,31 @@ _elm_win_frame_obj_update(Efl_Ui_Win_Data *sd, Eina_Bool force)
      TRAP(sd, resize, w, h);
 }
 
+EOLIAN static void
+_efl_ui_win_orientation_set(Eo *obj EINA_UNUSED, Efl_Ui_Win_Data *pd, int orientation)
+{
+   Efl_Ui_Widget *widget;
+   Eina_Iterator *it;
+
+   if (pd->orientation == orientation) return;
+
+   it = efl_ui_widget_tree_widget_iterator(obj);
+   EINA_ITERATOR_FOREACH(it, widget)
+     {
+        if (!efl_isa(widget, EFL_UI_LAYOUT_CLASS)) continue;
+
+        if (efl_ui_layout_automatic_orientation_get(widget))
+          efl_ui_layout_orientation_apply(widget, orientation);
+     }
+}
+
+EOLIAN static int
+_efl_ui_win_orientation_get(const Eo *obj EINA_UNUSED, Efl_Ui_Win_Data *pd)
+{
+   return pd->orientation;
+}
+
+
 static void
 _elm_win_state_change(Ecore_Evas *ee)
 {
@@ -1698,7 +1725,7 @@ _elm_win_state_change(Ecore_Evas *ee)
         _elm_win_xwin_update(sd);
 #endif
         ELM_WIN_DATA_ALIVE_CHECK(obj, sd);
-        efl_ui_widget_on_orientation_update(obj, sd->rot);
+        efl_ui_win_orientation_set(obj, sd->rot);
         efl_event_callback_legacy_call
           (obj, EFL_UI_WIN_EVENT_ROTATION_CHANGED, NULL);
         efl_event_callback_legacy_call
@@ -6606,7 +6633,7 @@ _win_rotate(Evas_Object *obj, Efl_Ui_Win_Data *sd, int rotation, Eina_Bool resiz
    _elm_win_xwin_update(sd);
 #endif
    _elm_win_frame_obj_update(sd, 0);
-   efl_ui_widget_on_orientation_update(obj, rotation);
+   efl_ui_win_orientation_set(obj, rotation);
    efl_event_callback_legacy_call
      (obj, EFL_UI_WIN_EVENT_ROTATION_CHANGED, NULL);
    if (_elm_config->atspi_mode)
